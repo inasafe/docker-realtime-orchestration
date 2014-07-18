@@ -19,15 +19,14 @@ mkdir -p $SHAKEDIR
 docker.io run --name='inasafe-realtime-sftp' \
 	-v $SHAKEDIR:/shakemaps \
 	-p 9222:22 \
-	-d -t AIFDR/sftp-realtime
+	-d -t AIFDR/${SFTP_IMAGE}
 
 echo "You can copy files into this container with these credentials:"
-# Note you can run this command any time after the container 
+# Note you can run this command any time after the container
 # is started and all containers started will have these
-# same credentials so you should be able to safely destroy 
+# same credentials so you should be able to safely destroy
 # and recreate this container
 
 docker cp inasafe-realtime-sftp:/credentials .
 cat credentials
 rm credentials
-
