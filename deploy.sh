@@ -5,6 +5,18 @@ echo "in a series of docker containers"
 echo "----------------------------------------"
 
 
+function download_analysis_data {
+    echo "Downloading Analysis Data"
+    analysis_data=( population.tif population.keywords indonesia.sqlite )
+    for data in "${analysis_data[@]}"
+    do
+        if ! [ -f "${REALTIME_DATA_DIR}/${data}" ]
+        then
+            wget -c -O ${REALTIME_DATA_DIR}/${data} http://quake.linfiniti.com/${data}
+        fi
+    done
+}
+
 function deploy_sftp_server {
     echo "Building SFTP Server image"
     sudo mkdir ${REALTIME_DIR}
@@ -27,43 +39,15 @@ function deploy_sftp_server {
 
 
 function build_realtime_image {
-
     echo "Building InaSAFE Realtime"
     cd ${REALTIME_DIR}
-
-    echo "Downloading some resources needed"
-    if [ -f "${REALTIME_DATA_DIR}/population.tif" ]
-    then
-        cp ${REALTIME_DATA_DIR}/population.tif .
-    else
-        wget -O ${REALTIME_DATA_DIR}/population.tif http://quake.linfiniti.com/population.tif
-    fi
-
-    if [ -f "${REALTIME_DATA_DIR}/population.keywords" ]
-    then
-        cp ${REALTIME_DATA_DIR}/population.keywords .
-    else
-        wget -O ${REALTIME_DATA_DIR}/population.keywords http://quake.linfiniti.com/population.keywords
-    fi
-
-    if [ -f "${REALTIME_DATA_DIR}/indonesia.sqlite" ]
-    then
-        cp ${REALTIME_DATA_DIR}/indonesia.sqlite .
-    else
-        wget -O ${REALTIME_DATA_DIR}/indonesia.sqlite http://quake.linfiniti.com/indonesia.sqlite
-    fi
 
     echo "Building InaSAFE Realtime Dockerfile"
     INASAFE_REALTIME_IMAGE=docker-inasafe-realtime
     docker.io build -t ${ORG}/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
-
-    # Clean this dir again
-    #rm indonesia.sqlite population.tif population.keywords
-
 }
 
 function deploy_apache_server {
-
     echo "Building Apache Server"
     cd ${REALTIME_DIR}
     APACHE_IMAGE=docker-realtime-apache
@@ -125,6 +109,7 @@ REALTIME_DIR=/home/realtime
 REALTIME_DATA_DIR=/home/realtime/data
 SHAKEDIR=/home/realtime/shakemaps
 
+download_analysis_data
 deploy_apache_server
 deploy_sftp_server
 build_realtime_image

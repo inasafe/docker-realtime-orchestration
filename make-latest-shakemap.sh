@@ -5,15 +5,23 @@
 REALTIME_DIR=/home/realtime
 INASAFE_REALTIME_IMAGE=docker-inasafe-realtime
 
-# TODO AG: Not finished, should run the script: scripts/realtime/make-latest-shakemap
-# TODO     inside the container under /home/realtime/src/inasafe
-# TODO AG: pass some env variables for this container related to sftp config
+# TODO: Grab the user name and password automatically
+# TODO: Mount /home/realtime/data volume
+SFTP_LOCAL_IP=$(docker inspect inasafe-realtime-sftp | grep IPAddress | cut -d '"' -f 4)
+SFTP_LOCAL_PORT=22
+SFTP_USER_NAME=realtime
+SFTP_USER_PASSWORD=ieZ4dohn2sab
+SFTP_BASE_PATH=/shakemaps
+
 docker.io run --name="inasafe-realtime" \
--p 2222:22 \
---link sftp-realtime:sftp-realtime \
+-e EQ_SFTP_BASE_URL=${SFTP_LOCAL_IP} \
+-e EQ_SFTP_PORT=${SFTP_LOCAL_PORT} \
+-e EQ_SFTP_USER_NAME=${SFTP_USER_NAME} \
+-e EQ_SFTP_USER_PASSWORD=${SFTP_USER_PASSWORD} \
+-e EQ_SFTP_BASE_PATH=${SFTP_BASE_PATH} \
 -v ${REALTIME_DIR}/shakemaps-cache:${REALTIME_DIR}/shakemaps-cache \
 -v ${REALTIME_DIR}/shakemaps-extracted:${REALTIME_DIR}/shakemaps-extracted \
--t AIFDR/${INASAFE_REALTIME_IMAGE}
+-i -t AIFDR/${INASAFE_REALTIME_IMAGE}
 
 # Kill container right away!
 docker.io kill inasafe-realtime
