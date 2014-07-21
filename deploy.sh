@@ -12,7 +12,7 @@ function deploy_sftp_server {
     pushd .
     cd ${REALTIME_DIR}
     SFTP_IMAGE=docker-realtime-sftp
-    docker.io build -t AIFDR/${SFTP_IMAGE} git://github.com/AIFDR/${SFTP_IMAGE}.git
+    docker.io build -t ${ORG}/${SFTP_IMAGE} git://github.com/${ORG}/${SFTP_IMAGE}.git
 
     echo "Starting SFTP Server image"
     docker.io kill inasafe-realtime-sftp
@@ -22,7 +22,7 @@ function deploy_sftp_server {
     docker.io run --name='inasafe-realtime-sftp' \
         -v ${SHAKEDIR}:/shakemaps \
         -p 9222:22 \
-        -d -t AIFDR/${SFTP_IMAGE}
+        -d -t ${ORG}/${SFTP_IMAGE}
 }
 
 
@@ -55,10 +55,10 @@ function build_realtime_image {
 
     echo "Building InaSAFE Realtime Dockerfile"
     INASAFE_REALTIME_IMAGE=docker-inasafe-realtime
-    docker.io build -t AIFDR/${INASAFE_REALTIME_IMAGE} git://github.com/AIFDR/${INASAFE_REALTIME_IMAGE}.git
+    docker.io build -t ${ORG}/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
 
     # Clean this dir again
-    rm indonesia.sqlite population.tif population.keywords
+    #rm indonesia.sqlite population.tif population.keywords
 
 }
 
@@ -67,7 +67,7 @@ function deploy_apache_server {
     echo "Building Apache Server"
     cd ${REALTIME_DIR}
     APACHE_IMAGE=docker-realtime-apache
-    docker.io build -t AIFDR/${APACHE_IMAGE} git://github.com/AIFDR/${APACHE_IMAGE}.git
+    docker.io build -t ${ORG}/${APACHE_IMAGE} git://github.com/${ORG}/${APACHE_IMAGE}.git
 
     echo "Starting Apache Server"
     WEBDIR=/home/realtime/web
@@ -87,14 +87,14 @@ function deploy_apache_server {
     #	-v $WEBDIR:/var/www \
     #	-p 8080:80 \
     #	--entrypoint=/bin/bash \
-    #	-i -t AIFDR/apache-realtime -i
+    #	-i -t ${ORG}/apache-realtime -i
 
     # Once testing is done comment the above and use
     # this one rather.
     docker.io run --name='inasafe-realtime-apache' \
         -v $WEBDIR:/var/www \
         -p 8080:80 \
-        -d -t AIFDR/${APACHE_IMAGE}
+        -d -t ${ORG}/${APACHE_IMAGE}
 }
 
 function show_credentials {
@@ -108,6 +108,16 @@ function show_credentials {
     cat credentials
     rm credentials
 }
+
+# See if we are using forks or official repo
+if test -z "$1"
+then
+  echo "Using ${ORG} organsiation repos on github"
+  export ORG=${ORG}
+else
+  echo "Using personal forks: $1"
+  export ORG=$1
+fi
 
 
 USER=realtime
