@@ -62,7 +62,7 @@ function build_realtime_image {
 
 }
 
-function deploy_apache_server{
+function deploy_apache_server {
 
     echo "Building Apache Server"
     cd ${REALTIME_DIR}
@@ -97,7 +97,7 @@ function deploy_apache_server{
         -d -t AIFDR/${APACHE_IMAGE}
 }
 
-function show_credentials{
+function show_credentials {
 
     echo "You can copy files into SFTP container with these credentials:"
     # Note you can run this command any time after the container
