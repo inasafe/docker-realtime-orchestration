@@ -4,7 +4,7 @@ source functions.sh
 
 # This if for development so that we can ssh into it
 
-SFTP_LOCAL_IP=$(docker inspect inasafe-realtime-sftp | grep IPAddress | cut -d '"' -f 4)
+SFTP_LOCAL_IP=$(docker.io inspect inasafe-realtime-sftp | grep IPAddress | cut -d '"' -f 4)
 SFTP_LOCAL_PORT=22
 SFTP_USER_NAME=$(show_credentials | cut -d ':' -f 2 | cut -d ' ' -f 2)
 SFTP_USER_PASSWORD=$(show_credentials | cut -d ':' -f 3 | cut -d ' ' -f 2)
@@ -31,5 +31,4 @@ docker.io run --name="inasafe-realtime" \
 -i -t AIFDR/${INASAFE_REALTIME_IMAGE}
 
 # Kill the container right away
-docker.io kill inasafe-realtime
-docker.io rm inasafe-realtime
+kill_container inasafe-realtime

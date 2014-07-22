@@ -20,7 +20,7 @@ function kill_container {
         docker.io kill ${NAME}
         docker.io rm ${NAME}
     else
-        echo "${NAME} is not already running"
+        echo "${NAME} is not running"
     fi
 }
 
@@ -40,8 +40,6 @@ function run_apache_container {
     echo "Running apache container"
     echo "====================================="
     cd ${REALTIME_DIR}
-
-    echo "Starting Apache Server"
 
     kill_container ${APACHE_IMAGE}
 
