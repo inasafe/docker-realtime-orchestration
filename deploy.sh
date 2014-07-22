@@ -25,18 +25,6 @@ function deploy_btsync_server {
         -d -t AIFDR/${BTSYNC_IMAGE}
 }
 
-function download_analysis_data {
-    echo "Downloading Analysis Data"
-    analysis_data=( population.tif population.keywords indonesia.sqlite )
-    for data in "${analysis_data[@]}"
-    do
-        if ! [ -f "${REALTIME_DATA_DIR}/${data}" ]
-        then
-            wget -c -O ${REALTIME_DATA_DIR}/${data} http://quake.linfiniti.com/${data}
-        fi
-        cp ${REALTIME_DATA_DIR}/${data} .
-    done
-}
 
 function deploy_sftp_server {
     echo "Building SFTP Server image"
@@ -130,7 +118,6 @@ REALTIME_DIR=/home/realtime
 REALTIME_DATA_DIR=/home/realtime/analysis_data
 SHAKEDIR=/home/realtime/shakemaps
 
-download_analysis_data
 deploy_apache_server
 deploy_sftp_server
 build_realtime_image
