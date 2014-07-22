@@ -56,6 +56,15 @@ cd docker-realtime-orchestration
 ./deploy.sh
 ```
 
+You will probably need to give the ssh credentials to the sysadmin who will
+be pushing shake events to the realtime service. To do this, a helper script
+is provided that will print the user name and password for the ssh/sftp 
+container:
+
+```
+./show_password.sh
+```
+
 Now you can run the impact map generation tool:
 
 ```
@@ -64,6 +73,10 @@ Now you can run the impact map generation tool:
 
 Probably you will want to put `run.sh` into a cron job.
 
+
+TODO:
+
+Document ports and host based configuration.
 
 --------
 
