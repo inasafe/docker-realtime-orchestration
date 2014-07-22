@@ -7,6 +7,7 @@ echo "----------------------------------------"
 
 function download_analysis_data {
     echo "Downloading Analysis Data"
+    download_url=http://quake.linfiniti.com/analysis_data.tar.bz2
     analysis_data=( population.tif population.keywords indonesia.sqlite )
     for data in "${analysis_data[@]}"
     do
@@ -106,7 +107,7 @@ fi
 
 USER=realtime
 REALTIME_DIR=/home/realtime
-REALTIME_DATA_DIR=/home/realtime/data
+REALTIME_DATA_DIR=/home/realtime/analysis_data
 SHAKEDIR=/home/realtime/shakemaps
 
 download_analysis_data
