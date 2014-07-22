@@ -7,7 +7,6 @@ echo "----------------------------------------"
 
 function download_analysis_data {
     echo "Downloading Analysis Data"
-    download_url=http://quake.linfiniti.com/analysis_data.tar.bz2
     analysis_data=( population.tif population.keywords indonesia.sqlite )
     for data in "${analysis_data[@]}"
     do
@@ -15,6 +14,7 @@ function download_analysis_data {
         then
             wget -c -O ${REALTIME_DATA_DIR}/${data} http://quake.linfiniti.com/${data}
         fi
+        cp ${REALTIME_DATA_DIR}/${data} .
     done
 }
 
@@ -115,3 +115,5 @@ deploy_apache_server
 deploy_sftp_server
 build_realtime_image
 show_credentials
+# Clean this dir again
+rm indonesia.sqlite population.tif population.keywords

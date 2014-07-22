@@ -1,6 +1,17 @@
 #!/bin/bash
-
 # This will be called by cron job on the host
+
+function show_credentials {
+
+    echo "You can copy files into SFTP container with these credentials:"
+    # Note you can run this command any time after the container
+    # is started and all containers started will have these
+    # same credentials so you should be able to safely destroy
+    # and recreate this container
+    docker cp inasafe-realtime-sftp:/credentials .
+    cat credentials
+    rm credentials
+}
 
 REALTIME_DIR=/home/realtime
 REALTIME_DATA_DIR=/home/realtime/analysis_data
