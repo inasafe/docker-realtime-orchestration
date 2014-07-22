@@ -44,7 +44,7 @@ function build_realtime_image {
     cd ${REALTIME_DIR}
 
     echo "Building InaSAFE Realtime Dockerfile"
-    INASAFE_REALTIME_IMAGE=docker-inasafe-realtime
+    INASAFE_REALTIME_IMAGE=docker-realtime-inasafe
     docker.io build -t ${ORG}/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
 }
 
@@ -115,5 +115,3 @@ deploy_apache_server
 deploy_sftp_server
 build_realtime_image
 show_credentials
-# Clean this dir again
-rm indonesia.sqlite population.tif population.keywords
