@@ -5,6 +5,26 @@ echo "in a series of docker containers"
 echo "----------------------------------------"
 
 
+function deploy_btsync_server {
+    echo "Setting up btsync server"
+    echo "Building SFTP Server image"
+    DATADIR=/home/realtime/analysis_data
+    BTSYNC_IMAGE=docker-realtime-btsync
+
+    docker.io kill ${BTSYNC_IMAGE}
+    docker.io rm ${BTSYNC_IMAGE}
+
+    docker.io build -t ${ORG}/${BTSYNC_IMAGE} git://github.com/${ORG}/${BTSYNC_IMAGE}.git
+
+    mkdir -p ${DATADIR}
+
+    docker.io run --name="${BTSYNC_IMAGE}" \
+        -v $DATADIR:$DATADIR \
+        -p 8888:8888 \
+        -p 55555:55555 \
+        -d -t AIFDR/${BTSYNC_IMAGE}
+}
+
 function download_analysis_data {
     echo "Downloading Analysis Data"
     analysis_data=( population.tif population.keywords indonesia.sqlite )
@@ -28,11 +48,11 @@ function deploy_sftp_server {
     docker.io build -t ${ORG}/${SFTP_IMAGE} git://github.com/${ORG}/${SFTP_IMAGE}.git
 
     echo "Starting SFTP Server image"
-    docker.io kill inasafe-realtime-sftp
-    docker.io rm inasafe-realtime-sftp
+    docker.io kill ${SFTP_IMAGE}
+    docker.io rm ${SFTP_IMAGE}
 
     mkdir -p ${SHAKEDIR}
-    docker.io run --name='inasafe-realtime-sftp' \
+    docker.io run --name="${SFTP_IMAGE}" \
         -v ${SHAKEDIR}:/shakemaps \
         -p 9222:22 \
         -d -t ${ORG}/${SFTP_IMAGE}
@@ -58,8 +78,8 @@ function deploy_apache_server {
     WEBDIR=/home/realtime/web
     APACHE_IMAGE=docker-realtime-apache
 
-    docker.io kill inasafe-realtime-apache
-    docker.io rm inasafe-realtime-apache
+    docker.io kill ${APACHE_IMAGE}
+    docker.io rm ${APACHE_IMAGE}
 
     mkdir -p $WEBDIR
     cp web/index.html ${WEBDIR}/
@@ -76,7 +96,7 @@ function deploy_apache_server {
 
     # Once testing is done comment the above and use
     # this one rather.
-    docker.io run --name='inasafe-realtime-apache' \
+    docker.io run --name="${APACHE_IMAGE}" \
         -v $WEBDIR:/var/www \
         -p 8080:80 \
         -d -t ${ORG}/${APACHE_IMAGE}
