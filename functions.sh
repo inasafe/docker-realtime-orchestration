@@ -127,13 +127,13 @@ function build_realtime_image {
 
 function show_credentials {
     echo ""
-    echo "You can copy files into SFTP container with these credentials:"
+    echo "Login details for SFTP container:"
     echo "====================================="
     # Note you can run this command any time after the container
     # is started and all containers started will have these
     # same credentials so you should be able to safely destroy
     # and recreate this container
-    docker.io cp docker-realtime-sftp:/credentials .
+    docker.io cp ${SFTP_IMAGE}:/credentials .
     cat credentials
     rm credentials
 }
