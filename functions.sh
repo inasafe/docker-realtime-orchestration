@@ -34,7 +34,6 @@ function build_apache_image {
 
 }
 
-
 function run_apache_container {
     echo ""
     echo "Running apache container"
@@ -87,7 +86,6 @@ function run_sftp_server_container {
         -d -t AIFDR/${SFTP_IMAGE}
 }
 
-
 function build_btsync_image {
     echo ""
     echo "Building btsync image"
@@ -124,6 +122,11 @@ function build_realtime_image {
     docker.io build -t AIFDR/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
 }
 
+function get_credentials {
+    docker.io cp ${SFTP_IMAGE}:/credentials .
+    cat credentials
+    rm credentials
+}
 
 function show_credentials {
     echo ""
@@ -133,9 +136,7 @@ function show_credentials {
     # is started and all containers started will have these
     # same credentials so you should be able to safely destroy
     # and recreate this container
-    docker.io cp ${SFTP_IMAGE}:/credentials .
-    cat credentials
-    rm credentials
+    get_credentials
 }
 
 function get_sftp_local_ip {
@@ -147,11 +148,11 @@ function get_sftp_local_port {
 }
 
 function get_sftp_user_name {
-    show_credentials | cut -d ':' -f 2 | cut -d ' ' -f 2
+    get_credentials | cut -d ':' -f 2 | cut -d ' ' -f 2
 }
 
 function get_sftp_user_password {
-    show_credentials | cut -d ':' -f 3 | cut -d ' ' -f 2
+    get_credentials | cut -d ':' -f 3 | cut -d ' ' -f 2
 }
 
 function get_sftp_base_path {
