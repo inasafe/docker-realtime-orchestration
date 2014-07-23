@@ -26,6 +26,7 @@ docker.io run --name="${INASAFE_REALTIME_IMAGE}" \
 -v ${REALTIME_DATA_DIR}:${REALTIME_DATA_DIR} \
 -v ${REALTIME_DIR}/shakemaps-cache:${REALTIME_DIR}/shakemaps-cache \
 -v ${REALTIME_DIR}/shakemaps-extracted:${REALTIME_DIR}/shakemaps-extracted \
+-v ${WEB_DIR}:${WEB_DIR} \
 -i -t AIFDR/${INASAFE_REALTIME_IMAGE}
 
 # Kill the container right away
