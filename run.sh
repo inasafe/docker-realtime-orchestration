@@ -2,20 +2,18 @@
 
 source functions.sh
 
-# This if for development so that we can ssh into it
-
-SFTP_LOCAL_IP=$(docker.io inspect inasafe-realtime-sftp | grep IPAddress | cut -d '"' -f 4)
-SFTP_LOCAL_PORT=22
-SFTP_USER_NAME=$(show_credentials | cut -d ':' -f 2 | cut -d ' ' -f 2)
-SFTP_USER_PASSWORD=$(show_credentials | cut -d ':' -f 3 | cut -d ' ' -f 2)
-SFTP_BASE_PATH=/shakemaps
+SFTP_LOCAL_IP=$(get_sftp_local_ip)
+SFTP_LOCAL_PORT=$(get_sftp_local_port)
+SFTP_USER_NAME=$(get_sftp_user_name)
+SFTP_USER_PASSWORD=$(get_sftp_user_password)
+SFTP_BASE_PATH=$(get_sftp_base_path)
 
 INSAFE_REALTIME_TEMPLATE=${REALTIME_DATA_DIR}/realtime-template.qpt
 INSAFE_REALTIME_PROJECT=${REALTIME_DATA_DIR}/realtime.qgs
 INASAFE_POPULATION_PATH=${REALTIME_DATA_DIR}/exposure/population.tif
 GEONAMES_SQLITE_PATH=${REALTIME_DATA_DIR}/indonesia.sqlite
 
-docker.io run --name="inasafe-realtime" \
+docker.io run --name="${INASAFE_REALTIME_IMAGE}" \
 -e EQ_SFTP_BASE_URL=${SFTP_LOCAL_IP} \
 -e EQ_SFTP_PORT=${SFTP_LOCAL_PORT} \
 -e EQ_SFTP_USER_NAME=${SFTP_USER_NAME} \
@@ -31,4 +29,4 @@ docker.io run --name="inasafe-realtime" \
 -i -t AIFDR/${INASAFE_REALTIME_IMAGE}
 
 # Kill the container right away
-kill_container inasafe-realtime
+kill_container ${INASAFE_REALTIME_IMAGE}

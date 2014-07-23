@@ -137,3 +137,23 @@ function show_credentials {
     cat credentials
     rm credentials
 }
+
+function get_sftp_local_ip {
+    docker.io inspect ${SFTP_IMAGE} | grep IPAddress | cut -d '"' -f 4
+}
+
+function get_sftp_local_port {
+    docker.io inspect ${SFTP_IMAGE} | grep /tcp -m 1 | cut -d ':' -f 1 | cut -d '"' -f 2 | cut -d '/' -f 1
+}
+
+function get_sftp_user_name {
+    show_credentials | cut -d ':' -f 2 | cut -d ' ' -f 2
+}
+
+function get_sftp_user_password {
+    show_credentials | cut -d ':' -f 3 | cut -d ' ' -f 2
+}
+
+function get_sftp_base_path {
+    docker.io inspect ${SFTP_IMAGE} | grep ${SHAKE_DIR} -m 1 | cut -d ':' -f 1 | cut -d '"' -f 2
+}

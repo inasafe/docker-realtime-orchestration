@@ -4,7 +4,7 @@ source functions.sh
 echo ""
 echo "----------------------------------------"
 echo "This script will build the docker images "
-echo "needed forInaSAFE realtime."
+echo "needed for InaSAFE realtime."
 echo ""
 echo "You can optionally pass a parameter which "
 echo "is an alternate organisation or user name"
