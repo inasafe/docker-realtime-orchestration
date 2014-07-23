@@ -56,7 +56,7 @@ function build_apache_image {
     echo "Building Apache Image"
     echo "====================================="
 
-    docker.io build -t AIFDR/${APACHE_IMAGE} git://github.com/${ORG}/${APACHE_IMAGE}.git
+    docker.io build -t aifdr/${APACHE_IMAGE} git://github.com/${ORG}/${APACHE_IMAGE}.git
 
 }
 
@@ -78,7 +78,7 @@ function run_apache_container {
     docker.io run --name="${APACHE_IMAGE}" \
         -v ${WEB_DIR}:/var/www \
         -p 8080:80 \
-        -d -t AIFDR/${APACHE_IMAGE}
+        -d -t aifdr/${APACHE_IMAGE}
 
 }
 
@@ -88,7 +88,7 @@ function build_sftp_server_image {
     echo "Building SFTP Server image"
     echo "====================================="
 
-    docker.io build -t AIFDR/${SFTP_IMAGE} git://github.com/${ORG}/${SFTP_IMAGE}.git
+    docker.io build -t aifdr/${SFTP_IMAGE} git://github.com/${ORG}/${SFTP_IMAGE}.git
 
 }
 
@@ -106,7 +106,7 @@ function run_sftp_server_container {
     docker.io run --name="${SFTP_IMAGE}" \
         -v ${SHAKE_DIR}:/shakemaps \
         -p 9222:22 \
-        -d -t AIFDR/${SFTP_IMAGE}
+        -d -t aifdr/${SFTP_IMAGE}
 
 }
 
@@ -117,7 +117,7 @@ function build_btsync_image {
     echo "Building btsync image"
     echo "====================================="
 
-    docker.io build -t AIFDR/${BTSYNC_IMAGE} git://github.com/${ORG}/${BTSYNC_IMAGE}.git
+    docker.io build -t aifdr/${BTSYNC_IMAGE} git://github.com/${ORG}/${BTSYNC_IMAGE}.git
 
 }
 
@@ -135,7 +135,7 @@ function run_btsync_container {
         -v ${REALTIME_DATA_DIR}:${REALTIME_DATA_DIR} \
         -p 8888:8888 \
         -p 55555:55555 \
-        -d -t AIFDR/${BTSYNC_IMAGE}
+        -d -t aifdr/${BTSYNC_IMAGE}
 
 }
 
@@ -145,7 +145,7 @@ function build_realtime_image {
     echo "Building InaSAFE Realtime Image"
     echo "====================================="
 
-    docker.io build -t AIFDR/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
+    docker.io build -t aifdr/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
 }
 
 
