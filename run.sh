@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-source functions.sh
+date > /tmp/rtlog.txt
+
+DIR=`dirname $0`
+source ${DIR}/functions.sh
 
 # Kill the container right away
 kill_container ${INASAFE_REALTIME_IMAGE}
