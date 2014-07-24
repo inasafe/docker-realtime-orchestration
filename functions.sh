@@ -30,6 +30,16 @@ function make_directories {
         mkdir -p ${SHAKE_DIR}
     fi
 
+    if [ ! -d ${SHAKE_CACHE_DIR} ]
+    then
+        mkdir -p ${SHAKE_CACHE_DIR}
+    fi
+
+    if [ ! -d ${SHAKE_EXTRACT_DIR} ]
+    then
+        mkdir -p ${SHAKE_EXTRACT_DIR}
+    fi
+
     if [ ! -d ${WEB_DIR} ]
     then
         mkdir -p ${WEB_DIR}
