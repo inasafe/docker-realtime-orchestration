@@ -4,6 +4,8 @@ REALTIME_USER=realtime
 REALTIME_DIR=/home/realtime
 REALTIME_DATA_DIR=${REALTIME_DIR}/analysis_data
 SHAKE_DIR=${REALTIME_DIR}/shakemaps
+SHAKE_CACHE_DIR=${REALTIME_DIR}/shakemaps-cache
+SHAKE_EXTRACT_DIR=${REALTIME_DIR}/shakemaps-extracted
 WEB_DIR=${REALTIME_DIR}/web
 
 BTSYNC_IMAGE=docker-realtime-btsync
