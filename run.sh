@@ -2,6 +2,9 @@
 
 source functions.sh
 
+# Kill the container right away
+kill_container ${INASAFE_REALTIME_IMAGE}
+
 SFTP_LOCAL_IP=$(get_sftp_local_ip)
 SFTP_LOCAL_PORT=$(get_sftp_local_port)
 SFTP_USER_NAME=$(get_sftp_user_name)
@@ -27,7 +30,4 @@ docker.io run --name="${INASAFE_REALTIME_IMAGE}" \
 -v ${SHAKE_CACHE_DIR}:${SHAKE_CACHE_DIR} \
 -v ${SHAKE_EXTRACT_DIR}:${SHAKE_EXTRACT_DIR} \
 -v ${WEB_DIR}:${WEB_DIR} \
--i -t AIFDR/${INASAFE_REALTIME_IMAGE}
-
-# Kill the container right away
-kill_container ${INASAFE_REALTIME_IMAGE}
+-i -t aifdr/${INASAFE_REALTIME_IMAGE}
