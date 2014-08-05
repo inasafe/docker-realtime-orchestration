@@ -81,7 +81,6 @@ function run_apache_container {
     kill_container ${APACHE_IMAGE}
 
     make_directories
-    cd ${REALTIME_DIR}
 
     cp web/index.html ${WEB_DIR}/
     cp -r web/resource ${WEB_DIR}/
