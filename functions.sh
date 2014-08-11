@@ -51,11 +51,11 @@ function kill_container {
 
     NAME=$1
 
-    if docker.io ps -a | grep ${NAME} > /dev/null
+    if docker ps -a | grep ${NAME} > /dev/null
     then
         echo "Killing ${NAME}"
-        docker.io kill ${NAME}
-        docker.io rm ${NAME}
+        docker kill ${NAME}
+        docker rm ${NAME}
     else
         echo "${NAME} is not running"
     fi
@@ -68,7 +68,7 @@ function build_apache_image {
     echo "Building Apache Image"
     echo "====================================="
 
-    docker.io build -t aifdr/${APACHE_IMAGE} git://github.com/${ORG}/${APACHE_IMAGE}.git
+    docker build -t aifdr/${APACHE_IMAGE} git://github.com/${ORG}/${APACHE_IMAGE}.git
 
 }
 
@@ -85,7 +85,7 @@ function run_apache_container {
     cp web/index.html ${WEB_DIR}/
     cp -r web/resource ${WEB_DIR}/
 
-    docker.io run --name="${APACHE_IMAGE}" \
+    docker run --name="${APACHE_IMAGE}" \
         -v ${WEB_DIR}:/var/www \
         -p 8080:80 \
         -d -t aifdr/${APACHE_IMAGE}
@@ -98,7 +98,7 @@ function build_sftp_server_image {
     echo "Building SFTP Server image"
     echo "====================================="
 
-    docker.io build -t aifdr/${SFTP_IMAGE} git://github.com/${ORG}/${SFTP_IMAGE}.git
+    docker build -t aifdr/${SFTP_IMAGE} git://github.com/${ORG}/${SFTP_IMAGE}.git
 
 }
 
@@ -113,7 +113,7 @@ function run_sftp_server_container {
 
     kill_container  ${SFTP_IMAGE}
 
-    docker.io run --name="${SFTP_IMAGE}" \
+    docker run --name="${SFTP_IMAGE}" \
         -v ${SHAKE_DIR}:/shakemaps \
         -p 9222:22 \
         -d -t aifdr/${SFTP_IMAGE}
@@ -126,7 +126,7 @@ function build_btsync_image {
     echo "Building btsync image"
     echo "====================================="
 
-    docker.io build -t aifdr/${BTSYNC_IMAGE} git://github.com/${ORG}/${BTSYNC_IMAGE}.git
+    docker build -t aifdr/${BTSYNC_IMAGE} git://github.com/${ORG}/${BTSYNC_IMAGE}.git
 
 }
 
@@ -140,7 +140,7 @@ function run_btsync_container {
 
     kill_container ${BTSYNC_IMAGE}
 
-    docker.io run --name="${BTSYNC_IMAGE}" \
+    docker run --name="${BTSYNC_IMAGE}" \
         -v ${REALTIME_DATA_DIR}:${REALTIME_DATA_DIR} \
         -p 8888:8888 \
         -p 55555:55555 \
@@ -154,11 +154,11 @@ function build_realtime_image {
     echo "Building InaSAFE Realtime Image"
     echo "====================================="
 
-    docker.io build -t aifdr/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
+    docker build -t aifdr/${INASAFE_REALTIME_IMAGE} git://github.com/${ORG}/${INASAFE_REALTIME_IMAGE}.git
 }
 
 function get_credentials {
-    docker.io cp ${SFTP_IMAGE}:/credentials .
+    docker cp ${SFTP_IMAGE}:/credentials .
     cat credentials
     rm credentials
 }
@@ -175,11 +175,11 @@ function show_credentials {
 }
 
 function get_sftp_local_ip {
-    docker.io inspect ${SFTP_IMAGE} | grep IPAddress | cut -d '"' -f 4
+    docker inspect ${SFTP_IMAGE} | grep IPAddress | cut -d '"' -f 4
 }
 
 function get_sftp_local_port {
-    docker.io inspect ${SFTP_IMAGE} | grep /tcp -m 1 | cut -d ':' -f 1 | cut -d '"' -f 2 | cut -d '/' -f 1
+    docker inspect ${SFTP_IMAGE} | grep /tcp -m 1 | cut -d ':' -f 1 | cut -d '"' -f 2 | cut -d '/' -f 1
 }
 
 function get_sftp_user_name {
@@ -191,5 +191,5 @@ function get_sftp_user_password {
 }
 
 function get_sftp_base_path {
-    docker.io inspect ${SFTP_IMAGE} | grep ${SHAKE_DIR} -m 1 | cut -d ':' -f 1 | cut -d '"' -f 2
+    docker inspect ${SFTP_IMAGE} | grep ${SHAKE_DIR} -m 1 | cut -d ':' -f 1 | cut -d '"' -f 2
 }
