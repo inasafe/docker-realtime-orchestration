@@ -8,6 +8,7 @@ echo "images as a series of docker containers"
 echo "----------------------------------------"
 echo ""
 
+make_directories
 run_apache_container
 run_sftp_server_container
 run_btsync_container

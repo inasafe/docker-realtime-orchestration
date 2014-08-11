@@ -19,6 +19,7 @@ function make_directories {
     then
         mkdir -p ${REALTIME_DIR}
     fi
+    sudo chown -R ${USER}.${USER} ${REALTIME_DIR}
 
     if [ ! -d ${REALTIME_DATA_DIR} ]
     then
@@ -80,8 +81,6 @@ function run_apache_container {
 
     kill_container ${APACHE_IMAGE}
 
-    make_directories
-
     cp web/index.html ${WEB_DIR}/
     cp -r web/resource ${WEB_DIR}/
 
@@ -109,12 +108,10 @@ function run_sftp_server_container {
     echo "Running SFTP Server container"
     echo "====================================="
 
-    make_directories
-
     kill_container  ${SFTP_IMAGE}
 
     docker.io run --name="${SFTP_IMAGE}" \
-        -v ${SHAKE_DIR}:/shakemaps \
+        -v ${SHAKE_DIR}:${SHAKE_DIR} \
         -p 9222:22 \
         -d -t aifdr/${SFTP_IMAGE}
 
@@ -135,8 +132,6 @@ function run_btsync_container {
     echo ""
     echo "Running btsync container"
     echo "====================================="
-
-    make_directories
 
     kill_container ${BTSYNC_IMAGE}
 
