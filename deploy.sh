@@ -9,6 +9,7 @@ echo "----------------------------------------"
 echo ""
 
 make_directories
+get_inasafe
 run_apache_container
 run_sftp_server_container
 run_btsync_container
