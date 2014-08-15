@@ -2,6 +2,7 @@
 
 REALTIME_USER=realtime
 REALTIME_DIR=/home/realtime
+INASAFE_SOURCE_DIR=${REALTIME_DIR}/src/inasafe
 REALTIME_DATA_DIR=${REALTIME_DIR}/analysis_data
 SHAKE_DIR=${REALTIME_DIR}/shakemaps
 SHAKE_CACHE_DIR=${REALTIME_DIR}/shakemaps-cache
@@ -61,6 +62,22 @@ function kill_container {
         echo "${NAME} is not running"
     fi
 
+}
+
+function get_inasafe {
+
+    echo ""
+    echo "Pulling the latest InaSAFE Realtime from Github."
+    echo "================================================"
+
+    if [ ! -d ${INASAFE_SOURCE_DIR} ]
+    then
+        git clone --branch realtime http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
+    else
+        cd ${INASAFE_SOURCE_DIR}
+        git pull origin realtime
+        cd -
+    fi
 }
 
 function build_apache_image {
