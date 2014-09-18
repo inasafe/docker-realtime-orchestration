@@ -102,6 +102,7 @@ function run_apache_container {
     cp -r web/resource ${WEB_DIR}/
 
     docker run --name="${APACHE_IMAGE}" \
+        --restart=always \
         -v ${WEB_DIR}:/var/www \
         -p 8080:80 \
         -d -t aifdr/${APACHE_IMAGE}
@@ -128,6 +129,7 @@ function run_sftp_server_container {
     kill_container  ${SFTP_IMAGE}
 
     docker run --name="${SFTP_IMAGE}" \
+        --restart=always \
         -v ${SHAKE_DIR}:${SHAKE_DIR} \
         -p 9222:22 \
         -d -t aifdr/${SFTP_IMAGE}
@@ -153,6 +155,7 @@ function run_btsync_container {
     kill_container ${BTSYNC_IMAGE}
 
     docker run --name="${BTSYNC_IMAGE}" \
+        --restart=always \
         -v ${REALTIME_DATA_DIR}:${REALTIME_DATA_DIR} \
         -p 8888:8888 \
         -p 55555:55555 \
