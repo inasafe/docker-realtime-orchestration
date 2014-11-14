@@ -4,7 +4,7 @@ Docker Realtime Orchestration
 Orchestration scripts for running InaSAFE realtime services.
 
 To use you need to have docker installed on any linux host. You
-need a minimum of docker 0.9.
+need a minimum of docker 1.2.
 
 There are three main scripts here:
 
