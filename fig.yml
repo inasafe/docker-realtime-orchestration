@@ -1,0 +1,62 @@
+#
+# Production server with UWSGI configured to run on port 1818
+#
+# Usage:
+# fig -f fig-.yml <command>
+#
+# Typical useage:
+#
+# fig build
+# fig up -d web
+# fig run migrate
+# fig run collectstatic
+
+
+# To get an interactive shell in the django context:
+#
+# fig run shell
+
+btsync:
+  image: kartoza/btsync
+  hostname: inasafe-btsync
+  volumes:
+    - ./analysis_data:/web
+  environment:
+    - SECRET=BMRMQI2JSG72SUOWMLRY2LD4POCAQQDW3
+    - DEVICE=InaSAFE-Realtime
+
+sftp:
+  build: docker-sftp
+  hostname: inasafe-sftp
+  volumes:
+    - ./shakemaps:/home/realtime/shakemaps
+  ports:
+    - "9222:22"
+
+apache:
+  build: docker-apache
+  hostname: inasafe-apache
+  volumes:
+    - ./web:/var/www
+  ports:
+    - "8080:80"
+
+inasafe:
+  build: docker-inasafe
+  hostname: inasafe-realtime
+  environment:
+    - INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+    - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
+    - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+    - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
+  volumes:
+    - ./analysis_data:/web
+    - ./shakemaps:/home/realtime/shakemaps
+    - ./shakemaps-cache:/home/realtime/shakemaps-cache
+    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+    - ./web:/var/www
+  ports:
+    - "1818:49360"
+  links:
+    - sftp:sftp
+

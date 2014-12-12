@@ -1,1 +1,9 @@
 .idea
+
+# Ignore everything except the these files / subdirs in these dirs:
+!analysis_data/README.txt
+!shakemaps/README.txt
+!shakemaps-cache/README.txt
+!shakemaps-extracted/README.txt
+!web/resources
+!web/index.html
