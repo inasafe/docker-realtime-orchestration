@@ -50,13 +50,12 @@ inasafe:
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
   volumes:
-    - ./analysis_data:/web
+    - ./inasafe-src:/home/realtime/src
+    - ./analysis_data:/home/realtime/analysis_data
     - ./shakemaps:/home/realtime/shakemaps
     - ./shakemaps-cache:/home/realtime/shakemaps-cache
     - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
     - ./web:/var/www
-  ports:
-    - "1818:49360"
   links:
     - sftp:sftp
 

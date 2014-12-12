@@ -13,12 +13,12 @@ ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -y update
-RUN apt-get -y install rpl pwgen vim
+RUN apt-get -y install rpl pwgen git
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install QGIS 2.4, git, xvfb, and paramiko
 RUN echo "deb http://qgis.org/debian trusty main" >> /etc/apt/sources.list; echo "deb-src http://qgis.org/debian trusty main" >> /etc/apt/sources.list
-RUN gpg --keyserver keyserver.ubuntu.com --recv 47765B75; gpg --export --armor 47765B75 | sudo apt-key add -
+RUN gpg --keyserver keyserver.ubuntu.com --recv DD45F6C3; gpg --export --armor DD45F6C3 | sudo apt-key add -
 RUN apt-get -y update
 RUN apt-get -y install qgis python-qgis git python-paramiko xvfb
 
