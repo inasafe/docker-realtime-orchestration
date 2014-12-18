@@ -19,10 +19,10 @@ function get_inasafe {
 
     if [ ! -d ${INASAFE_SOURCE_DIR} ]
     then
-        git clone --branch realtime http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
+        git clone --branch develop http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
     else
         cd ${INASAFE_SOURCE_DIR}
-        git pull origin realtime
+        git pull origin develop
         cd -
     fi
 }
@@ -34,5 +34,5 @@ then
 fi
 
 cd ${INASAFE_SOURCE_DIR}
-. scripts/realtime/make-latest-shakemap.sh
-. scripts/realtime/make-public.sh
+scripts/realtime/make-latest-shakemap.sh
+scripts/realtime/make-public.sh
