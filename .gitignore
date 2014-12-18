@@ -17,5 +17,5 @@ inasafe-src
 !shakemaps-extracted/README.txt
 !web/resources
 !web/index.html
-!inasafe-src
+!inasafe-src/*
 
