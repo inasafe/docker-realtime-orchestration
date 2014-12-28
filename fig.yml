@@ -49,6 +49,7 @@ inasafe:
     - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
+    - LANG=en
   volumes:
     - ./inasafe-src:/home/realtime/src
     - ./analysis_data:/home/realtime/analysis_data
