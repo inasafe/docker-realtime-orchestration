@@ -32,8 +32,6 @@ host):
 
 
 ```
-# We can remove this first line when docker hub builds btsync properly
-docker build -t kartoza/btsync git://github.com/kartoza/docker-btsync.git
 git clone git://github.com/AIFDR/docker-realtime-orchestration.git
 cd docker-realtime-orchestration
 fig build
