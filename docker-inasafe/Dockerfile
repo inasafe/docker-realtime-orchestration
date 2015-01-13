@@ -21,7 +21,6 @@ RUN echo "deb http://qgis.org/debian trusty main" >> /etc/apt/sources.list; echo
 RUN gpg --keyserver keyserver.ubuntu.com --recv DD45F6C3; gpg --export --armor DD45F6C3 | sudo apt-key add -
 RUN apt-get -y update
 RUN apt-get -y install qgis python-qgis git python-paramiko xvfb
-ADD qgis-2.4 /usr/local/qgis-2.4
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh
 RUN chmod 0755 /start.sh

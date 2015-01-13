@@ -54,7 +54,6 @@ inasafe:
     - ./inasafe-src:/home/realtime/src
     - ./analysis_data:/home/realtime/analysis_data
     - ./shakemaps:/home/realtime/shakemaps
-    - ./shakemaps-cache:/home/realtime/shakemaps-cache
     - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
     - ./web:/var/www
   links:
