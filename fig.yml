@@ -40,6 +40,9 @@ inasafe:
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
     - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
+    - SHAKEMAPS_DIR=/home/realtime/shakemaps
+    - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+    - WEB_DIR=/var/www
   volumes:
     - ./inasafe-src:/home/realtime/src
     - ./analysis_data:/home/realtime/analysis_data

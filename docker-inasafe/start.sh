@@ -25,5 +25,5 @@ then
 fi
 
 cd ${INASAFE_SOURCE_DIR}
-scripts/realtime/make-latest-shakemap.sh /home/realtime/shakemaps
-scripts/realtime/make-public.sh
+scripts/realtime/make-latest-shakemap.sh ${SHAKEMAPS_DIR}
+scripts/realtime/make-public.sh ${SHAKEMAPS_EXTRACT_DIR} ${WEB_DIR}
