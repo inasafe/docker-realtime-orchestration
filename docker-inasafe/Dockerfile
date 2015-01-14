@@ -1,5 +1,5 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM ubuntu:14.04
+FROM inasafe/qgis-desktop:2.4
 MAINTAINER Akbar Gumbira <akbargumbira@gmail.com>
 
 RUN export DEBIAN_FRONTEND=noninteractive
@@ -16,11 +16,8 @@ RUN apt-get -y update
 RUN apt-get -y install rpl pwgen git
 
 #-------------Application Specific Stuff ----------------------------------------------------
-# Install QGIS 2.4, git, xvfb, and paramiko
-RUN echo "deb http://qgis.org/debian trusty main" >> /etc/apt/sources.list; echo "deb-src http://qgis.org/debian trusty main" >> /etc/apt/sources.list
-RUN gpg --keyserver keyserver.ubuntu.com --recv DD45F6C3; gpg --export --armor DD45F6C3 | sudo apt-key add -
-RUN apt-get -y update
-RUN apt-get -y install qgis python-qgis git python-paramiko xvfb
+# Install QGIS 2.4, git, xvfb
+RUN apt-get -y install git xvfb
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh
 RUN chmod 0755 /start.sh

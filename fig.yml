@@ -1,20 +1,10 @@
+# Typical usage:
 #
-# Production server with UWSGI configured to run on port 1818
-#
-# Usage:
-# fig -f fig-.yml <command>
-#
-# Typical useage:
-#
-# fig build
-# fig up -d web
-# fig run migrate
-# fig run collectstatic
+# ```fig build``` to build all the images defined here
+# ```fig up -d``` to run the images
+# ```fig run inasafe /start.sh checkout <branch_name>``` to pull and checkout the latest branch with the name <branch_name>
+# ```fig run inasafe``` to run the latest shakemap with the branch defined in previous command
 
-
-# To get an interactive shell in the django context:
-#
-# fig run shell
 
 btsync:
   image: kartoza/btsync
@@ -49,7 +39,10 @@ inasafe:
     - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
-    - LANG=en
+    - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
+    - SHAKEMAPS_DIR=/home/realtime/shakemaps
+    - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+    - WEB_DIR=/var/www
   volumes:
     - ./inasafe-src:/home/realtime/src
     - ./analysis_data:/home/realtime/analysis_data

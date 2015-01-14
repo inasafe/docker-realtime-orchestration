@@ -1,38 +1,36 @@
 #!/bin/bash
 
-export EQ_SFTP_USER_NAME=realtime
-export EQ_SFTP_USER_PASSWORD=jea4Mighaif0
-#export EQ_SFTP_USER_PASSWORD=`cat /credentials | cut -d ':' -f 3 | cut -d ' ' -f 2`
-# Will get set for us by docker link
-export EQ_SFTP_BASE_URL=${SFTP_PORT_22_TCP_ADDR}
-# Will get set for us by docker link
-export EQ_SFTP_PORT=22
-export EQ_SFTP_BASE_PATH=/home/realtime/shakemaps
+get_inasafe() {
 
-INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
-
-function get_inasafe {
-
+    BRANCH_NAME="$1"
     echo ""
     echo "Pulling the latest InaSAFE Realtime from Github."
     echo "================================================"
 
     if [ ! -d ${INASAFE_SOURCE_DIR} ]
     then
-        git clone --branch develop http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
+        git clone --branch ${BRANCH_NAME} http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
     else
         cd ${INASAFE_SOURCE_DIR}
-        git pull origin develop
+        git fetch origin
+        git checkout ${BRANCH_NAME}
+        git pull origin ${BRANCH_NAME}
         cd -
     fi
 }
 
-if [ "$1" == "checkout" ]
+if [ "$1" == "checkout" ];
 then
-    get_inasafe
+    if [ -n "$2" ];
+    then
+        get_inasafe "$2"
+    else
+        echo "ERROR: No branch name passed."
+        echo "USAGE: fig run inasafe /start.sh checkout <branch_name>"
+    fi
     exit
 fi
 
 cd ${INASAFE_SOURCE_DIR}
-scripts/realtime/make-latest-shakemap.sh
-scripts/realtime/make-public.sh
+scripts/realtime/make-latest-shakemap.sh ${SHAKEMAPS_DIR}
+scripts/realtime/make-public.sh ${SHAKEMAPS_EXTRACT_DIR} ${WEB_DIR}
