@@ -16,8 +16,8 @@ RUN apt-get -y update
 RUN apt-get -y install rpl pwgen git
 
 #-------------Application Specific Stuff ----------------------------------------------------
-# Install QGIS 2.4, git, xvfb, and paramiko
-RUN apt-get -y install git python-paramiko xvfb
+# Install QGIS 2.4, git, xvfb
+RUN apt-get -y install git xvfb
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh
 RUN chmod 0755 /start.sh

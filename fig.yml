@@ -1,7 +1,9 @@
 # Typical usage:
 #
-# fig build
-# fig up -d
+# ```fig build``` to build all the images defined here
+# ```fig up -d``` to run the images
+# ```fig run inasafe /start.sh checkout``` to pull the latest develop branch
+# ```fig run inasafe``` to run the latest shakemap
 
 
 btsync:
