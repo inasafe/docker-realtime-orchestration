@@ -5,7 +5,6 @@ REALTIME_DIR=/home/realtime
 INASAFE_SOURCE_DIR=${REALTIME_DIR}/src/inasafe
 REALTIME_DATA_DIR=${REALTIME_DIR}/analysis_data
 SHAKE_DIR=${REALTIME_DIR}/shakemaps
-SHAKE_CACHE_DIR=${REALTIME_DIR}/shakemaps-cache
 SHAKE_EXTRACT_DIR=${REALTIME_DIR}/shakemaps-extracted
 WEB_DIR=${REALTIME_DIR}/web
 
@@ -30,11 +29,6 @@ function make_directories {
     if [ ! -d ${SHAKE_DIR} ]
     then
         mkdir -p ${SHAKE_DIR}
-    fi
-
-    if [ ! -d ${SHAKE_CACHE_DIR} ]
-    then
-        mkdir -p ${SHAKE_CACHE_DIR}
     fi
 
     if [ ! -d ${SHAKE_EXTRACT_DIR} ]
