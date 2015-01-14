@@ -1,14 +1,5 @@
 #!/bin/bash
 
-export EQ_SFTP_USER_NAME=realtime
-export EQ_SFTP_USER_PASSWORD=jea4Mighaif0
-#export EQ_SFTP_USER_PASSWORD=`cat /credentials | cut -d ':' -f 3 | cut -d ' ' -f 2`
-# Will get set for us by docker link
-export EQ_SFTP_BASE_URL=${SFTP_PORT_22_TCP_ADDR}
-# Will get set for us by docker link
-export EQ_SFTP_PORT=22
-export EQ_SFTP_BASE_PATH=/home/realtime/shakemaps
-
 INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
 
 function get_inasafe {
@@ -22,6 +13,8 @@ function get_inasafe {
         git clone --branch develop http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
     else
         cd ${INASAFE_SOURCE_DIR}
+        git fetch origin
+        git checkout develop
         git pull origin develop
         cd -
     fi
