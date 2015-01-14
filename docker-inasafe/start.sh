@@ -1,7 +1,5 @@
 #!/bin/bash
 
-INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
-
 function get_inasafe {
 
     echo ""
