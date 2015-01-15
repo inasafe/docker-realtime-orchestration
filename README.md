@@ -34,19 +34,41 @@ host):
 ```
 git clone git://github.com/AIFDR/docker-realtime-orchestration.git
 cd docker-realtime-orchestration
-fig build
-fig up -d
-fig run inasafe /start.sh checkout <branch_name>
+make
+make checkout
 ```
 
-Now you can run the impact map generation tool:
+You can see the status of all the containers by running:
 
 ```
-fig run inasafe
+make status
+```
+
+To get the credential for the running sftp container, run:
+
+```
+make sftp_credential
+```
+
+Now you can run an assessment for the latest shakemap:
+
+```
+make inasafe
 ```
 
 Probably you will want to put the above command into a cron job.
 
+
+Below is the complete make command list:
+
+  * **make**: Build, deploy, and show all the containers' status
+  * **make build**: Build all the images from fig configuration
+  * **make deploy**: Deploy all the containers
+  * **make checkout**: Checkout the latest inasafe develop source
+  * **make inasafe**: Run assessment for the latest shakemap
+  * **make status**: Show the status of all the containers
+  * **make sftp_credential**: Show the sftp container's credential
+  * **make rm**: Kill and remove all the running container
 
 --------
 
