@@ -59,6 +59,17 @@ make inasafe
 Probably you will want to put the above command into a cron job.
 
 
+Below is the complete make command list:
+
+  * **make**: Build, deploy, and show all the containers' status
+  * **make build**: Build all the images from fig configuration
+  * **make deploy**: Deploy all the containers
+  * **make checkout**: Checkout the latest inasafe develop source
+  * **make inasafe**: Run assessment for the latest shakemap
+  * **make status**: Show the status of all the containers
+  * **make sftp_credential**: Show the sftp container's credential
+  * **make rm**: Kill and remove all the running container
+
 --------
 
 Tim Sutton and Akbar Gumbira, July 2014
