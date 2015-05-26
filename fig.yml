@@ -29,7 +29,7 @@ apache:
   volumes:
     - ./web:/var/www
   ports:
-    - "8080:80"
+    - "8090:80"
 
 inasafe:
   build: docker-inasafe
