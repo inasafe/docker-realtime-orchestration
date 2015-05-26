@@ -21,7 +21,7 @@ checkout:
 	@echo "--------------------------"
 	@echo "Checkout InaSAFE develop "
 	@echo "--------------------------"
-	@fig -p realtime run inasafe /start.sh checkout develop
+	@fig -p realtime run --rm inasafe /start.sh checkout develop
 
 inasafe:
 	@echo
