@@ -28,7 +28,7 @@ inasafe:
 	@echo "--------------------------"
 	@echo "Running InaSAFE Assesment"
 	@echo "--------------------------"
-	@fig -p realtime run inasafe
+	@fig -p realtime run --rm inasafe
 
 status:
 	@echo
