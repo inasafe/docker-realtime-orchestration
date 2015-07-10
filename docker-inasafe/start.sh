@@ -32,5 +32,25 @@ then
 fi
 
 cd ${INASAFE_SOURCE_DIR}
-scripts/realtime/make-latest-shakemap.sh ${SHAKEMAPS_DIR}
-scripts/realtime/make-public.sh ${SHAKEMAPS_EXTRACT_DIR} ${WEB_DIR}
+
+if [ "$1" == "make-latest-shakemap" ];
+then
+    echo "make latest shakemap"
+    scripts/realtime/make-latest-shakemap.sh ${SHAKEMAPS_DIR}
+    scripts/realtime/make-public.sh ${SHAKEMAPS_EXTRACT_DIR} ${WEB_DIR}
+    exit
+fi
+
+if [ "$1" == "make-all-shakemaps" ];
+then
+    echo "make all shakemap"
+    scripts/realtime/make-all-shakemaps.sh ${SHAKEMAPS_DIR}
+    scripts/realtime/make-public.sh ${SHAKEMAPS_EXTRACT_DIR} ${WEB_DIR}
+    exit
+fi
+
+echo "No recognized command."
+echo "Available commands:"
+echo " - checkout <branch_name>"
+echo " - make-latest-shakemap"
+echo " - make-all-shakemaps"

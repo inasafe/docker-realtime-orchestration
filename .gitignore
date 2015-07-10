@@ -2,18 +2,22 @@
 venv
 
 # These are docker volumes whose content should not be under VCS
-analysis_data
-shakemaps
-shakemaps-extracted
-web/resources
-web
-inasafe-src
+analysis_data/*
+shakemaps/*
+shakemaps-extracted/*
+web/*
+inasafe-src/*
 
 # Ignore everything except the these files / subdirs in these dirs:
 !analysis_data/README.txt
 !shakemaps/README.txt
 !shakemaps-extracted/README.txt
-!web/resources
+!web/resource/
 !web/index.html
-!inasafe-src/*
 
+# ignore apt cacher ng
+71-apt-cacher-ng
+
+# ignore env files
+docker-inasafe/realtime-rest.env
+docker-inasafe/realtime-rest-dev.env

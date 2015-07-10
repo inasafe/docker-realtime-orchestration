@@ -43,6 +43,8 @@ inasafe:
     - SHAKEMAPS_DIR=/home/realtime/shakemaps
     - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
     - WEB_DIR=/var/www
+  env_file:
+    - ./docker-inasafe/realtime-rest.env
   volumes:
     - ./inasafe-src:/home/realtime/src
     - ./analysis_data:/home/realtime/analysis_data
@@ -52,3 +54,25 @@ inasafe:
   links:
     - sftp:sftp
 
+devinasafe:
+  build: docker-inasafe
+  hostname: inasafe-realtime
+  environment:
+    - INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+    - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
+    - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+    - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
+    - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
+    - SHAKEMAPS_DIR=/home/realtime/shakemaps
+    - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+    - WEB_DIR=/var/www
+  env_file:
+    - ./docker-inasafe/realtime-rest-dev.env
+  volumes:
+    - ./inasafe-src:/home/realtime/src
+    - ./analysis_data:/home/realtime/analysis_data
+    - ./shakemaps:/home/realtime/shakemaps
+    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+    - ./web:/var/www
+  links:
+    - sftp:sftp
