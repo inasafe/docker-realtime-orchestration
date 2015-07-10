@@ -14,7 +14,20 @@ deploy:
 	@echo "--------------------------"
 	@echo "Bringing up fresh instances"
 	@echo "--------------------------"
-	@docker-compose -p realtime up -d
+	@docker-compose -p realtime up -d btsync
+	@docker-compose -p realtime up -d sftp
+	@docker-compose -p realtime up -d apache
+	@docker-compose -p realtime up -d inasafe
+
+dev-deploy:
+	@echo
+	@echo "--------------------------"
+	@echo "Bringing up fresh instances"
+	@echo "--------------------------"
+	@docker-compose -p realtime up -d btsync
+	@docker-compose -p realtime up -d sftp
+	@docker-compose -p realtime up -d apache
+	@docker-compose -p realtime up -d devinasafe
 
 checkout:
 	@echo
@@ -28,7 +41,28 @@ inasafe:
 	@echo "--------------------------"
 	@echo "Running InaSAFE Assesment"
 	@echo "--------------------------"
-	@docker-compose -p realtime run --rm inasafe
+	@docker-compose -p realtime run --rm inasafe /start.sh make-latest-shakemap
+
+inasafe-shell:
+	@echo
+	@echo "--------------------------"
+	@echo "Running InaSAFE Shell"
+	@echo "--------------------------"
+	@docker-compose -p realtime run --rm inasafe /bin/bash
+
+dev-inasafe:
+	@echo
+	@echo "--------------------------"
+	@echo "Running InaSAFE Assesment in Dev Mode"
+	@echo "--------------------------"
+	@docker-compose -p realtime run --rm devinasafe /start.sh make-latest-shakemap
+
+dev-inasafe-shell:
+	@echo
+	@echo "--------------------------"
+	@echo "Running InaSAFE Shell in Dev Mode"
+	@echo "--------------------------"
+	@docker-compose -p realtime run --rm devinasafe /bin/bash
 
 status:
 	@echo
