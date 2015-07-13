@@ -33,6 +33,9 @@ fi
 
 cd ${INASAFE_SOURCE_DIR}
 
+source run-env-realtime.sh
+
+
 if [ "$1" == "make-latest-shakemap" ];
 then
     echo "make latest shakemap"
