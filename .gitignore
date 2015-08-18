@@ -7,11 +7,15 @@ shakemaps/*
 shakemaps-extracted/*
 web/*
 inasafe-src/*
+ssh-config/*
+etc-ssh-config/*
 
 # Ignore everything except the these files / subdirs in these dirs:
 !analysis_data/README.txt
 !shakemaps/README.txt
 !shakemaps-extracted/README.txt
+!ssh-config/README.txt
+!etc-ssh-config/README.txt
 !web/resource/
 !web/index.html
 

@@ -20,6 +20,7 @@ sftp:
   hostname: inasafe-sftp
   volumes:
     - ./ssh-config:/home/realtime/.ssh
+    - ./etc-ssh-config:/etc/ssh
     - ./shakemaps:/home/realtime/shakemaps
   ports:
     - "9222:22"
