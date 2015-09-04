@@ -11,6 +11,13 @@ build:
 	@echo "--------------------------"
 	@docker-compose -p $(PROJECT_ID) build
 
+dev-build:
+	@echo
+	@echo "--------------------------"
+	@echo "Building in production mode"
+	@echo "--------------------------"
+	@docker-compose -p $(PROJECT_ID)-dev build
+
 deploy:
 	@echo
 	@echo "--------------------------"
@@ -41,6 +48,13 @@ checkout:
 	@echo "Checkout InaSAFE develop "
 	@echo "--------------------------"
 	@docker-compose -p $(PROJECT_ID) run --rm inasafe /start.sh checkout develop
+
+dev-checkout:
+	@echo
+	@echo "--------------------------"
+	@echo "Checkout InaSAFE develop "
+	@echo "--------------------------"
+	@docker-compose -p $(PROJECT_ID)-dev run --rm devinasafe /start.sh checkout develop
 
 inasafe:
 	@echo

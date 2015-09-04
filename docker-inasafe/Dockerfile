@@ -22,9 +22,8 @@ ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS.txt
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh
-RUN chmod 0755 /start.sh
-
 # Add bash service to monitor shakemaps folder
 ADD shakemaps_monitor.sh /shakemaps_monitor.sh
+RUN chmod 0755 /start.sh
 
 CMD /start.sh
