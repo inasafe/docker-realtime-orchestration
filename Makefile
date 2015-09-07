@@ -28,7 +28,7 @@ deploy:
 	@docker-compose -p $(PROJECT_ID) up -d apache
 	@docker-compose -p $(PROJECT_ID) up -d inasafe
 	# run shakemaps_monitor service
-	@docker-compose -p $(PROJECT_ID) run -d inasafe /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps"
+	@docker-compose -p $(PROJECT_ID) run -d inasafe /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps" > .shakemonitor-id
 
 dev-deploy:
 	@echo
@@ -40,7 +40,7 @@ dev-deploy:
 	@docker-compose -p $(PROJECT_ID)-dev up -d apache
 	@docker-compose -p $(PROJECT_ID)-dev up -d devinasafe
 	# run shakemaps_monitor service
-	@docker-compose -p $(PROJECT_ID)-dev run -d devinasafe /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps"
+	@docker-compose -p $(PROJECT_ID)-dev run -d devinasafe /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps" > .shakemonitor-id
 
 checkout:
 	@echo
@@ -126,17 +126,19 @@ rm:
 	@echo "--------------------------"
 	@echo "Killing production instance!!! "
 	@echo "--------------------------"
+	$(eval monitor_id=$(shell cat .shakemonitor-id))
 	@docker-compose -p $(PROJECT_ID) kill
-	@docker kill realtime_inasafe_run_1
+	@docker kill $(cat .shakemonitor-id)
 	@docker-compose -p $(PROJECT_ID) rm
-	@docker rm realtime_inasafe_run_1
+	@docker rm $(cat .shakemonitor-id)
 
 dev-rm:
 	@echo
 	@echo "--------------------------"
 	@echo "Killing dev instance!!! "
 	@echo "--------------------------"
+	$(eval monitor_id=$(shell cat .shakemonitor-id))
 	@docker-compose -p $(PROJECT_ID)-dev kill
-	@docker kill realtimedev_devinasafe_run_1
+	@docker kill $(monitor_id)
 	@docker-compose -p $(PROJECT_ID)-dev rm
-	@docker rm realtimedev_devinasafe_run_1
+	@docker rm $(monitor_id)

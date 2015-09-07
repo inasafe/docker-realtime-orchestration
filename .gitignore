@@ -25,3 +25,6 @@ etc-ssh-config/*
 # ignore env files
 docker-inasafe/realtime-rest.env
 docker-inasafe/realtime-rest-dev.env
+
+# ignore buildfiles
+.shakemonitor-id
