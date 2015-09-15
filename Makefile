@@ -127,10 +127,10 @@ rm:
 	@echo "Killing production instance!!! "
 	@echo "--------------------------"
 	$(eval monitor_id=$(shell cat .shakemonitor-id))
+	@docker kill $(monitor_id)
+	@docker rm $(monitor_id)
 	@docker-compose -p $(PROJECT_ID) kill
-	@docker kill $(cat .shakemonitor-id)
 	@docker-compose -p $(PROJECT_ID) rm
-	@docker rm $(cat .shakemonitor-id)
 
 dev-rm:
 	@echo
@@ -138,7 +138,7 @@ dev-rm:
 	@echo "Killing dev instance!!! "
 	@echo "--------------------------"
 	$(eval monitor_id=$(shell cat .shakemonitor-id))
-	@docker-compose -p $(PROJECT_ID)-dev kill
 	@docker kill $(monitor_id)
-	@docker-compose -p $(PROJECT_ID)-dev rm
 	@docker rm $(monitor_id)
+	@docker-compose -p $(PROJECT_ID)-dev kill
+	@docker-compose -p $(PROJECT_ID)-dev rm
