@@ -5,15 +5,18 @@ venv
 analysis_data/*
 shakemaps/*
 shakemaps-extracted/*
+floodmaps/*
 web/*
 inasafe-src/*
 ssh-config/*
 etc-ssh-config/*
+pycharm-helpers
 
 # Ignore everything except the these files / subdirs in these dirs:
 !analysis_data/README.txt
 !shakemaps/README.txt
 !shakemaps-extracted/README.txt
+!floodmaps/README.txt
 !ssh-config/README.txt
 !etc-ssh-config/README.txt
 !web/resource/

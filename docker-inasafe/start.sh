@@ -52,6 +52,13 @@ then
     exit
 fi
 
+if [ "$1" == "make-latest-floodmap" ];
+then
+	echo "make latest floodmap"
+	scripts/realtime/make-latest-floodmap.sh ${FLOODMAPS_DIR}
+	exit
+fi
+
 echo "No recognized command."
 echo "Available commands:"
 echo " - checkout <branch_name>"

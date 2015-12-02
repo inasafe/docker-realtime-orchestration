@@ -1,0 +1,16 @@
+inasafe:
+  build: docker-inasafe
+  dockerfile: Dockerfile-dev
+  env_file:
+    - ./docker-inasafe/realtime-rest-dev.env
+  volumes:
+    - ./inasafe-src:/home/realtime/src
+    - ./analysis_data:/home/realtime/analysis_data
+    - ./shakemaps:/home/realtime/shakemaps
+    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+    - ./floodmaps:/home/realtime/floodmaps
+    - ./web:/var/www
+    - ./pycharm-helpers:/root/.pycharm_helpers
+  ports:
+    # expose ssh ports
+    - "35103:22"
