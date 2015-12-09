@@ -44,12 +44,10 @@ RUN chmod 0755 /start.sh
 
 EXPOSE 22
 
+RUN echo "source /root/.dev-bashrc.sh" >> ~/.bashrc
 
-RUN echo "Xvfb :99 &" >> ~/.bashrc
-RUN echo "export DISPLAY=:99" >> ~/.bashrc
-RUN echo "source /root/.dev-startup.sh" >> ~/.bashrc
-
-ADD dev-startup.sh /root/.dev-startup.sh
+ADD dev-bashrc.sh /root/.dev-bashrc.sh
+ADD start-dev.sh /start-dev.sh
 
 
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["/start-dev.sh"]

@@ -97,7 +97,7 @@ rm:
 	@echo "Killing $(MODE_STRING) instance!!! "
 	@echo "--------------------------"
 	$(eval monitor_id=$(shell cat .shakemonitor-id))
-	@docker kill $(monitor_id)
-	@docker rm $(monitor_id)
+	@-docker kill $(monitor_id)
+	@-docker rm $(monitor_id)
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) kill
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) rm

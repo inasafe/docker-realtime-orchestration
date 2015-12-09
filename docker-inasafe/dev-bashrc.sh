@@ -4,6 +4,8 @@ source /home/realtime/src/inasafe/run-env-realtime.sh /usr
 
 # variable export
 
+export DISPLAY=:99
+
 export INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
 export INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
 export INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
