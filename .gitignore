@@ -19,6 +19,7 @@ pycharm-helpers
 !floodmaps/README.txt
 !ssh-config/README.txt
 !etc-ssh-config/README.txt
+!etc-ssh-config/sshd_config
 !web/resource/
 !web/index.html
 

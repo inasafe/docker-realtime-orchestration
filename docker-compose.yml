@@ -33,7 +33,7 @@ apache:
   ports:
     - "8090:80"
 
-inasafe:
+inasafe: &inasafe
   build: docker-inasafe
   hostname: inasafe-realtime
   environment:
@@ -58,3 +58,8 @@ inasafe:
     - ./web:/var/www
   links:
     - sftp:sftp
+
+# exactly the same like inasafe, but with container name to easily identify it
+inasafe-shakemap-monitor:
+  <<: *inasafe
+  container_name: shakemap-monitor

@@ -1,4 +1,4 @@
-inasafe:
+inasafe: &inasafe
   build: docker-inasafe
   dockerfile: Dockerfile-dev
   env_file:
@@ -14,3 +14,8 @@ inasafe:
   ports:
     # expose ssh ports
     - "35103:22"
+
+# exactly the same like inasafe, but with container name to easily identify it
+inasafe-shakemap-monitor:
+  <<: *inasafe
+  container_name: shakemap-monitor

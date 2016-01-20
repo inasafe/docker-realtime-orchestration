@@ -38,7 +38,7 @@ deploy:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d apache
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe
 	# run shakemaps_monitor service
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run -d inasafe /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps" > .shakemonitor-id
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run -d inasafe-shakemap-monitor /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps" > .shakemonitor-id
 
 checkout:
 	@echo
@@ -73,7 +73,7 @@ monitor-log:
 	@echo "--------------------------"
 	@echo "Viewing shakemaps monitor logs"
 	@echo "--------------------------"
-	@docker logs $(PROJECT_ID)_inasafe_run_1
+	@docker logs $(PROJECT_ID)_inasafe-shakemap-monitor_run_1
 
 status:
 	@echo
@@ -96,8 +96,13 @@ rm:
 	@echo "--------------------------"
 	@echo "Killing $(MODE_STRING) instance!!! "
 	@echo "--------------------------"
-	$(eval monitor_id=$(shell cat .shakemonitor-id))
-	@-docker kill $(monitor_id)
-	@-docker rm $(monitor_id)
+	@echo "Killing shakemap monitor"
+	@for i in $$(docker ps -a | grep "realtime_inasafe-shakemap-monitor_run" | cut -f1 -d" "); \
+		do docker rm -f $$i; \
+	done
+	@echo "Killing event processor"
+	@for i in $$(docker ps -a | grep "realtime_inasafe_run" | cut -f1 -d" "); \
+		do docker rm -f $$i; \
+	done
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) kill
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) rm
