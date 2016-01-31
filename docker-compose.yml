@@ -33,17 +33,19 @@ apache:
   ports:
     - "8090:80"
 
-inasafe:
+inasafe: &inasafe
   build: docker-inasafe
   hostname: inasafe-realtime
   environment:
     - INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
     - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+    - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/population_jakarta_clipped.tif
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
     - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
     - SHAKEMAPS_DIR=/home/realtime/shakemaps
     - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+    - FLOODMAPS_DIR=/home/realtime/floodmaps
     - WEB_DIR=/var/www
   env_file:
     - ./docker-inasafe/realtime-rest.env
@@ -52,29 +54,12 @@ inasafe:
     - ./analysis_data:/home/realtime/analysis_data
     - ./shakemaps:/home/realtime/shakemaps
     - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+    - ./floodmaps:/home/realtime/floodmaps
     - ./web:/var/www
   links:
     - sftp:sftp
 
-devinasafe:
-  build: docker-inasafe
-  hostname: inasafe-realtime
-  environment:
-    - INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
-    - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
-    - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
-    - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
-    - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
-    - SHAKEMAPS_DIR=/home/realtime/shakemaps
-    - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
-    - WEB_DIR=/var/www
-  env_file:
-    - ./docker-inasafe/realtime-rest-dev.env
-  volumes:
-    - ./inasafe-src:/home/realtime/src
-    - ./analysis_data:/home/realtime/analysis_data
-    - ./shakemaps:/home/realtime/shakemaps
-    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
-    - ./web:/var/www
-  links:
-    - sftp:sftp
+# exactly the same like inasafe, but with container name to easily identify it
+inasafe-shakemap-monitor:
+  <<: *inasafe
+  container_name: shakemap-monitor
