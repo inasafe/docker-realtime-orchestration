@@ -72,8 +72,9 @@ monitor-log:
 	@echo
 	@echo "--------------------------"
 	@echo "Viewing shakemaps monitor logs"
+	@echo "Latest 10 lines, and follow logs"
 	@echo "--------------------------"
-	@docker logs $(PROJECT_ID)_inasafe-shakemap-monitor_run_1
+	@docker logs -f --tail=10 $(PROJECT_ID)_inasafe-shakemap-monitor_run_1
 
 status:
 	@echo
