@@ -59,8 +59,16 @@ then
 	exit
 fi
 
+if [ "$1" == "celery-workers" ];
+then
+	echo "Running celery worker for realtime"
+	xvfb-run --server-args="-screen 0, 1024x768x24" celery -A realtime.celery_app worker -l info -Q inasafe-realtime
+	exit
+fi
+
 echo "No recognized command."
 echo "Available commands:"
 echo " - checkout <branch_name>"
 echo " - make-latest-shakemap"
-echo " - make-all-shakemaps"
+echo " - smake-all-shakemaps"
+echo " - celery-workers"
