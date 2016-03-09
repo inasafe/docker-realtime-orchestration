@@ -10,6 +10,9 @@ get_inasafe() {
     if [ ! -d ${INASAFE_SOURCE_DIR} ]
     then
         git clone --branch ${BRANCH_NAME} http://github.com/AIFDR/inasafe.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
+        git clone --branch master http://github.com/sourcepole/qgis-openlayers-plugin.git --depth 1 --verbose ${INASAFE_SOURCE_DIR}
+        # create symlink to openlayers_plugin
+        ln -s ./openlayers ${INASAFE_SOURCE_DIR}/qgis-openlayers-plugin/openlayers_plugin
     else
         cd ${INASAFE_SOURCE_DIR}
         git fetch origin
