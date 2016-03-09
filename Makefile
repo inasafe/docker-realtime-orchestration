@@ -61,6 +61,20 @@ inasafe-floodmap:
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run --rm inasafe /start.sh make-latest-floodmap
 
+inasafe-worker:
+	@echo
+	@echo "--------------------------"
+	@echo "Running InaSAFE Workers"
+	@echo "--------------------------"
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-worker
+
+inasafe-worker-log:
+	@echo
+	@echo "--------------------------"
+	@echo "Running InaSAFE Workers"
+	@echo "--------------------------"
+	@docker logs -f --tail=10 celery-worker
+
 inasafe-shell:
 	@echo
 	@echo "--------------------------"

@@ -16,3 +16,5 @@ export SHAKEMAPS_DIR=/home/realtime/shakemaps
 export SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
 export FLOODMAPS_DIR=/home/realtime/floodmaps
 export WEB_DIR=/var/www
+export C_FORCE_ROOT=True
+export INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/

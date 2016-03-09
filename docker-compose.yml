@@ -33,6 +33,16 @@ apache:
   ports:
     - "8090:80"
 
+rabbitmq:
+  image: library/rabbitmq
+  hostname: rabbitmq
+  environment:
+     - RABBIT_PASSWORD=rabbit_test_password
+     - USER=rabbit_user
+     - RABBITMQ_NODENAME=rabbit
+  ports:
+    - "8100:5672"
+
 inasafe: &inasafe
   build: docker-inasafe
   hostname: inasafe-realtime
@@ -47,6 +57,8 @@ inasafe: &inasafe
     - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
     - FLOODMAPS_DIR=/home/realtime/floodmaps
     - WEB_DIR=/var/www
+    - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+    - C_FORCE_ROOT=True
   env_file:
     - ./docker-inasafe/realtime-rest.env
   volumes:
@@ -58,8 +70,19 @@ inasafe: &inasafe
     - ./web:/var/www
   links:
     - sftp:sftp
+    - rabbitmq:rabbitmq
 
 # exactly the same like inasafe, but with container name to easily identify it
 inasafe-shakemap-monitor:
   <<: *inasafe
   container_name: shakemap-monitor
+  links:
+    - rabbitmq:rabbitmq
+
+inasafe-worker:
+  <<: *inasafe
+  working_dir: /home/realtime/src/inasafe
+  command: /start.sh celery-workers
+  container_name: celery-worker
+  links:
+    - rabbitmq:rabbitmq

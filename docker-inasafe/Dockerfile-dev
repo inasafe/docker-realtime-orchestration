@@ -49,6 +49,8 @@ RUN echo "source /root/.dev-bashrc.sh" >> ~/.bashrc
 
 ADD dev-bashrc.sh /root/.dev-bashrc.sh
 ADD start-dev.sh /start-dev.sh
+ADD start.sh /start.sh
+RUN chmod 0755 /start.sh
 
 
 CMD ["/start-dev.sh"]
