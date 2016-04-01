@@ -1,5 +1,7 @@
 .idea
 venv
+src
+temp/
 
 # These are docker volumes whose content should not be under VCS
 analysis_data/*
