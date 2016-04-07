@@ -1,6 +1,21 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM inasafe/qgis-desktop:2.4
-MAINTAINER Akbar Gumbira <akbargumbira@gmail.com>
+#FROM inasafe/qgis-desktop:2.4
+#MAINTAINER Akbar Gumbira <akbargumbira@gmail.com>
+#FROM inasafe/qgis-desktop:2.4
+#MAINTAINER Akbar Gumbira <akbargumbira@gmail.com>
+#FROM kartoza/qgis-desktop:2.8.4
+FROM debian:jessie
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
+
+RUN echo "deb     http://qgis.org/debian jessie main" >> /etc/apt/sources.list
+RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
+#RUN echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list
+#RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
+
+RUN apt-get -y update; apt-get -y install qgis python-qgis
+#RUN apt-get -y --force-yes install build-essential
+#RUN pip install cython
 
 RUN export DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_FRONTEND noninteractive
@@ -11,9 +26,8 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 # Or comment this line out if you do not wish to use caching
 ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -y update
-RUN apt-get -y install rpl pwgen git inotify-tools
+RUN apt-get -y --force-yes install rpl pwgen git inotify-tools
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install QGIS 2.4, git, xvfb

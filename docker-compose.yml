@@ -50,7 +50,7 @@ inasafe: &inasafe
     - INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
     - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
-    - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/population_jakarta_clipped.tif
+    - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
     - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
     - SHAKEMAPS_DIR=/home/realtime/shakemaps
