@@ -18,4 +18,5 @@ inasafe: &inasafe
 # exactly the same like inasafe, but with container name to easily identify it
 inasafe-shakemap-monitor:
   <<: *inasafe
+  dockerfile: Dockerfile-dev
   container_name: shakemap-monitor

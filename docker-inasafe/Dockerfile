@@ -30,11 +30,18 @@ RUN apt-get -y update
 RUN apt-get -y --force-yes install rpl pwgen git inotify-tools
 
 #-------------Application Specific Stuff ----------------------------------------------------
-# Install QGIS 2.4, git, xvfb
-RUN apt-get -y install git xvfb python-setuptools
+# Install git, xvfb
+RUN apt-get -y install git xvfb python-setuptools python-dev libssl-dev libffi-dev
 RUN easy_install pip==7.1.2
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
+ADD REQUIREMENTS-headless.txt /REQUIREMENTS-headless.txt
+ADD REQUIREMENTS-realtime.txt /REQUIREMENTS-realtime.txt
 RUN pip install -r /REQUIREMENTS.txt
+RUN pip install -r /REQUIREMENTS-headless.txt
+RUN pip install -r /REQUIREMENTS-realtime.txt
+# Copy ubuntu fonts
+ADD ubuntu-font-family /usr/share/fonts/truetype/ubuntu-font-fammily
+CMD fc-cache -f -v
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh
 # Add bash service to monitor shakemaps folder
