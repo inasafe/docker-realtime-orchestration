@@ -8,6 +8,7 @@ analysis_data/*
 shakemaps/*
 shakemaps-extracted/*
 floodmaps/*
+ashmaps/*
 web/*
 inasafe-src/*
 ssh-config/*
@@ -17,6 +18,7 @@ pycharm-helpers
 # Ignore everything except the these files / subdirs in these dirs:
 !analysis_data/README.txt
 !shakemaps/README.txt
+!ashmaps/README.txt
 !shakemaps-extracted/README.txt
 !floodmaps/README.txt
 !ssh-config/README.txt
@@ -34,3 +36,4 @@ docker-inasafe/realtime-rest-dev.env
 
 # ignore buildfiles
 .shakemonitor-id
+realtime/ash/test/data/temp/

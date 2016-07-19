@@ -56,6 +56,7 @@ inasafe: &inasafe
     - SHAKEMAPS_DIR=/home/realtime/shakemaps
     - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
     - FLOODMAPS_DIR=/home/realtime/floodmaps
+    - ASHMAPS_DIR=/home/realtime/ashmaps
     - WEB_DIR=/var/www
     - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
     - C_FORCE_ROOT=True
@@ -67,6 +68,7 @@ inasafe: &inasafe
     - ./shakemaps:/home/realtime/shakemaps
     - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
     - ./floodmaps:/home/realtime/floodmaps
+    - ./ashmaps:/home/realtime/ashmaps
     - ./web:/var/www
   links:
     - sftp:sftp
