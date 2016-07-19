@@ -20,3 +20,6 @@ inasafe-shakemap-monitor:
   <<: *inasafe
   dockerfile: Dockerfile-dev
   container_name: shakemap-monitor
+
+inasafe-worker:
+  dockerfile: Dockerfile-dev

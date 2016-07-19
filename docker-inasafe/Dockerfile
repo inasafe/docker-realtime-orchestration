@@ -1,8 +1,6 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
 #FROM inasafe/qgis-desktop:2.4
 #MAINTAINER Akbar Gumbira <akbargumbira@gmail.com>
-#FROM inasafe/qgis-desktop:2.4
-#MAINTAINER Akbar Gumbira <akbargumbira@gmail.com>
 #FROM kartoza/qgis-desktop:2.8.4
 FROM debian:jessie
 
@@ -14,7 +12,7 @@ RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
 #RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
 
 RUN apt-get -y update; apt-get -y install qgis python-qgis
-#RUN apt-get -y --force-yes install build-essential
+RUN apt-get -y --force-yes install build-essential autoconf libtool pkg-config
 #RUN pip install cython
 
 RUN export DEBIAN_FRONTEND=noninteractive
@@ -27,7 +25,7 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
 RUN apt-get -y update
-RUN apt-get -y --force-yes install rpl pwgen git inotify-tools
+RUN apt-get -y --force-yes install pwgen git inotify-tools
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
@@ -40,7 +38,10 @@ RUN pip install -r /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS-headless.txt
 RUN pip install -r /REQUIREMENTS-realtime.txt
 # Copy ubuntu fonts
-ADD ubuntu-font-family /usr/share/fonts/truetype/ubuntu-font-fammily
+RUN apt-get -y install wget unzip
+RUN wget -c http://font.ubuntu.com/download/ubuntu-font-family-0.83.zip
+RUN unzip ubuntu-font-family-0.83.zip
+RUN mv ubuntu-font-family-0.83 /usr/share/fonts/truetype/ubuntu-font-family
 CMD fc-cache -f -v
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh

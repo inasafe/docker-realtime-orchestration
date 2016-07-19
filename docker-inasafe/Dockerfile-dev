@@ -24,7 +24,6 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 # Or comment this line out if you do not wish to use caching
 ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -y update
 RUN apt-get -y --force-yes install pwgen git inotify-tools
 
@@ -55,7 +54,10 @@ RUN pip install -r /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS-headless.txt
 RUN pip install -r /REQUIREMENTS-realtime.txt
 # Copy ubuntu fonts
-ADD ubuntu-font-family /usr/share/fonts/truetype/ubuntu-font-fammily
+RUN apt-get -y install wget unzip
+RUN wget -c http://font.ubuntu.com/download/ubuntu-font-family-0.83.zip
+RUN unzip ubuntu-font-family-0.83.zip
+RUN mv ubuntu-font-family-0.83 /usr/share/fonts/truetype/ubuntu-font-family
 CMD fc-cache -f -v
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD start.sh /start.sh
