@@ -56,7 +56,17 @@ inasafe: &inasafe
     - SHAKEMAPS_DIR=/home/realtime/shakemaps
     - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
     - FLOODMAPS_DIR=/home/realtime/floodmaps
+    # Shake Environment
+    - INASAFE_SHAKE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+    - INASAFE_SJAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+    # Ash Environment
     - ASHMAPS_DIR=/home/realtime/ashmaps
+    - INASAFE_ASH_POPULATION_PATH=/home/realtime/analysis_data/ash/exposure/WorldPop_200m.tif
+    - INASAFE_ASH_LANDCOVER_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp
+    - INASAFE_ASH_CITIES_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp
+    - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp
+    - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp
+    - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/strm_indo_hillshade.tif
     - WEB_DIR=/var/www
     - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
     - C_FORCE_ROOT=True
