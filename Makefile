@@ -71,9 +71,25 @@ inasafe-worker:
 inasafe-worker-log:
 	@echo
 	@echo "--------------------------"
-	@echo "Running InaSAFE Workers"
+	@echo "View Logs InaSAFE Workers"
 	@echo "--------------------------"
-	@docker logs -f --tail=10 celery-worker
+	@docker logs -f --tail=10 realtime-celery-worker
+
+restart-inasafe-worker: stop-inasafe-worker
+	@echo
+	@echo "--------------------------"
+	@echo "Hard Restart InaSAFE Workers"
+	@echo "--------------------------"
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) rm inasafe-worker
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-worker
+
+stop-inasafe-worker:
+	@echo
+	@echo "--------------------------"
+	@echo "Hard Stop InaSAFE Workers"
+	@echo "--------------------------"
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) kill inasafe-worker
+
 
 inasafe-shell:
 	@echo
