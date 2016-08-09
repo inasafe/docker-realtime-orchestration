@@ -73,7 +73,7 @@ inasafe-worker-log:
 	@echo "--------------------------"
 	@echo "View Logs InaSAFE Workers"
 	@echo "--------------------------"
-	@docker logs -f --tail=10 realtime-celery-worker
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=50 inasafe-worker
 
 restart-inasafe-worker: stop-inasafe-worker
 	@echo
