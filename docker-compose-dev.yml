@@ -17,9 +17,17 @@ inasafe: &inasafe
 
 # exactly the same like inasafe, but with container name to easily identify it
 inasafe-shakemap-monitor:
-  <<: *inasafe
   dockerfile: Dockerfile-dev
-  container_name: shakemap-monitor
+  command: /start-dev.sh
+  ports:
+    - "35104:22"
+#  container_name: shakemap-monitor
+
+inasafe-shakemap-monitor-bnpb:
+  dockerfile: Dockerfile-dev
+  command: /start-dev.sh
+  ports:
+    - "35105:22"
 
 inasafe-worker:
   dockerfile: Dockerfile-dev

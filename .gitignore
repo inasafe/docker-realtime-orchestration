@@ -13,6 +13,7 @@ web/*
 inasafe-src/*
 ssh-config/*
 etc-ssh-config/*
+shakemaps-bnpb/*
 pycharm-helpers
 
 # Ignore everything except the these files / subdirs in these dirs:
@@ -33,6 +34,7 @@ pycharm-helpers
 # ignore env files
 docker-inasafe/realtime-rest.env
 docker-inasafe/realtime-rest-dev.env
+docker-bnpb-sync/bnpb_credential.env
 
 # ignore buildfiles
 .shakemonitor-id
