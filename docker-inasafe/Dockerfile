@@ -11,7 +11,7 @@ RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
 #RUN echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list
 #RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
 
-RUN apt-get -y update; apt-get -y install qgis python-qgis
+RUN apt-get -y update; apt-get -y --force-yes install qgis python-qgis
 RUN apt-get -y --force-yes install build-essential autoconf libtool pkg-config
 #RUN pip install cython
 

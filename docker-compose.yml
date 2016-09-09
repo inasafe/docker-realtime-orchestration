@@ -15,6 +15,14 @@ btsync:
     - SECRET=BMRMQI2JSG72SUOWMLRY2LD4POCAQQDW3
     - DEVICE=InaSAFE-Realtime
 
+bnpb-sync:
+  image: kartoza/btsync
+  hostname: bnpb-sync
+  volumes:
+    - ./shakemaps-bnpb:/web
+  env_file:
+    - ./docker-bnpb-sync/bnpb_credential.env
+
 sftp:
   build: docker-sftp
   hostname: inasafe-sftp
@@ -47,8 +55,8 @@ inasafe: &inasafe
   build: docker-inasafe
   hostname: inasafe-realtime
   environment:
-    - INSAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
-    - INSAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
+    - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+    - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
     - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
     - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp
     - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
@@ -58,7 +66,7 @@ inasafe: &inasafe
     - FLOODMAPS_DIR=/home/realtime/floodmaps
     # Shake Environment
     - INASAFE_SHAKE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
-    - INASAFE_SJAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+    - INASAFE_SHAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
     # Ash Environment
     - ASHMAPS_DIR=/home/realtime/ashmaps
     - INASAFE_ASH_VOLCANO_PATH=/home/realtime/analysis_data/ash/exposure/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp
@@ -81,6 +89,7 @@ inasafe: &inasafe
     - ./floodmaps:/home/realtime/floodmaps
     - ./ashmaps:/home/realtime/ashmaps
     - ./web:/var/www
+  working_dir: /home/realtime/src/inasafe
   links:
     - sftp:sftp
     - rabbitmq:rabbitmq
@@ -88,7 +97,23 @@ inasafe: &inasafe
 # exactly the same like inasafe, but with container name to easily identify it
 inasafe-shakemap-monitor:
   <<: *inasafe
-  container_name: shakemap-monitor
+#  container_name: shakemap-monitor
+  command: /shakemaps_monitor.sh /home/realtime/shakemaps
+  links:
+    - rabbitmq:rabbitmq
+
+inasafe-shakemap-monitor-bnpb:
+  <<: *inasafe
+  command: /shakemaps_monitor.sh /home/realtime/shakemaps
+  volumes:
+#  container_name: shakemap-monitor-bnpb
+    - ./inasafe-src:/home/realtime/src
+    - ./analysis_data:/home/realtime/analysis_data
+    - ./shakemaps-bnpb:/home/realtime/shakemaps
+    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+    - ./floodmaps:/home/realtime/floodmaps
+    - ./ashmaps:/home/realtime/ashmaps
+    - ./web:/var/www
   links:
     - rabbitmq:rabbitmq
 

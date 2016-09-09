@@ -34,11 +34,21 @@ deploy:
 	@echo "Bringing up fresh instances"
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d btsync
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d bnpb-sync
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d sftp
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d apache
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe
-	# run shakemaps_monitor service
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run -d inasafe-shakemap-monitor /bin/sh -c "/shakemaps_monitor.sh /home/realtime/shakemaps" > .shakemonitor-id
+
+bmkg-monitor:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down -d inasafe-shakemap-monitor-bnpb
+
+bnpb-monitor:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor-bnpb
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down -d inasafe-shakemap-monitor
+
+down:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down
 
 checkout:
 	@echo
@@ -46,6 +56,9 @@ checkout:
 	@echo "Checkout InaSAFE develop "
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run --rm inasafe /start.sh checkout develop
+
+inasafe-env:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec inasafe /bin/bash -c "source run-env-realtime.sh && printenv"
 
 inasafe-shakemap:
 	@echo
@@ -88,7 +101,7 @@ stop-inasafe-worker:
 	@echo "--------------------------"
 	@echo "Hard Stop InaSAFE Workers"
 	@echo "--------------------------"
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) kill inasafe-worker
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down inasafe-worker
 
 
 inasafe-shell:
@@ -98,13 +111,21 @@ inasafe-shell:
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run --rm inasafe /bin/bash
 
-monitor-log:
+bmkg-monitor-log:
 	@echo
 	@echo "--------------------------"
 	@echo "Viewing shakemaps monitor logs"
 	@echo "Latest 10 lines, and follow logs"
 	@echo "--------------------------"
-	@docker logs -f --tail=10 $(PROJECT_ID)_inasafe-shakemap-monitor_run_1
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=50 inasafe-shakemap-monitor
+
+bnpb-monitor-log:
+	@echo
+	@echo "--------------------------"
+	@echo "Viewing shakemaps monitor logs"
+	@echo "Latest 10 lines, and follow logs"
+	@echo "--------------------------"
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=50 inasafe-shakemap-monitor-bnpb
 
 status:
 	@echo
