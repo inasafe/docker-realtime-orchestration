@@ -74,7 +74,7 @@ inasafe: &inasafe
     - INASAFE_ASH_LANDCOVER_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp
     - INASAFE_ASH_CITIES_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp
     - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp
-    - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/strm_indo_hillshade.tif
+    - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/srtm_indo_hillshade.tif
     - INASAFE_ASH_OVERVIEW_PATH=/home/realtime/analysis_data/ash/overview.shp
     - WEB_DIR=/var/www
     - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
