@@ -41,11 +41,11 @@ deploy:
 
 bmkg-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down -d inasafe-shakemap-monitor-bnpb
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down inasafe-shakemap-monitor-bnpb
 
 bnpb-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor-bnpb
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down -d inasafe-shakemap-monitor
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down inasafe-shakemap-monitor
 
 down:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down
