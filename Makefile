@@ -41,11 +41,11 @@ deploy:
 
 bmkg-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down inasafe-shakemap-monitor-bnpb
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) stop inasafe-shakemap-monitor-bnpb
 
 bnpb-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor-bnpb
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down inasafe-shakemap-monitor
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) stop inasafe-shakemap-monitor
 
 down:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down
@@ -101,7 +101,7 @@ stop-inasafe-worker:
 	@echo "--------------------------"
 	@echo "Hard Stop InaSAFE Workers"
 	@echo "--------------------------"
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) down inasafe-worker
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) stop inasafe-worker
 
 
 inasafe-shell:
