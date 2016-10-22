@@ -11,9 +11,8 @@ btsync:
   hostname: inasafe-btsync
   volumes:
     - ./analysis_data:/web
-  environment:
-    - SECRET=BMRMQI2JSG72SUOWMLRY2LD4POCAQQDW3
-    - DEVICE=InaSAFE-Realtime
+  env_file:
+    - ./docker-btsync/btsync.env
 
 bnpb-sync:
   image: kartoza/btsync
