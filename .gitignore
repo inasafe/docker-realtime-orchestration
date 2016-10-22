@@ -35,6 +35,7 @@ pycharm-helpers
 docker-inasafe/realtime-rest.env
 docker-inasafe/realtime-rest-dev.env
 docker-bnpb-sync/bnpb_credential.env
+docker-btsync/btsync.env
 
 # ignore buildfiles
 .shakemonitor-id
