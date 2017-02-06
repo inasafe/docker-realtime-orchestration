@@ -5,121 +5,122 @@
 # ```fig run inasafe /start.sh checkout <branch_name>``` to pull and checkout the latest branch with the name <branch_name>
 # ```fig run inasafe``` to run the latest shakemap with the branch defined in previous command
 
+version: "2"
+services:
+  btsync:
+    image: kartoza/btsync
+    hostname: inasafe-btsync
+    volumes:
+      - ./analysis_data:/web
+    env_file:
+      - ./docker-btsync/btsync.env
 
-btsync:
-  image: kartoza/btsync
-  hostname: inasafe-btsync
-  volumes:
-    - ./analysis_data:/web
-  env_file:
-    - ./docker-btsync/btsync.env
+  bnpb-sync:
+    image: kartoza/btsync
+    hostname: bnpb-sync
+    volumes:
+      - ./shakemaps-bnpb:/web
+    env_file:
+      - ./docker-bnpb-sync/bnpb_credential.env
 
-bnpb-sync:
-  image: kartoza/btsync
-  hostname: bnpb-sync
-  volumes:
-    - ./shakemaps-bnpb:/web
-  env_file:
-    - ./docker-bnpb-sync/bnpb_credential.env
+  sftp:
+    build: docker-sftp
+    hostname: inasafe-sftp
+    volumes:
+      - ./ssh-config:/home/realtime/.ssh
+      - ./etc-ssh-config:/etc/ssh
+      - ./shakemaps:/home/realtime/shakemaps
+    ports:
+      - "9222:22"
 
-sftp:
-  build: docker-sftp
-  hostname: inasafe-sftp
-  volumes:
-    - ./ssh-config:/home/realtime/.ssh
-    - ./etc-ssh-config:/etc/ssh
-    - ./shakemaps:/home/realtime/shakemaps
-  ports:
-    - "9222:22"
+  apache:
+    build: docker-apache
+    hostname: inasafe-apache
+    volumes:
+      - ./web:/var/www
+    ports:
+      - "8090:80"
 
-apache:
-  build: docker-apache
-  hostname: inasafe-apache
-  volumes:
-    - ./web:/var/www
-  ports:
-    - "8090:80"
+  rabbitmq:
+    image: library/rabbitmq
+    hostname: rabbitmq
+    environment:
+       - RABBIT_PASSWORD=rabbit_test_password
+       - USER=rabbit_user
+       - RABBITMQ_NODENAME=rabbit
+    ports:
+      - "8100:5672"
 
-rabbitmq:
-  image: library/rabbitmq
-  hostname: rabbitmq
-  environment:
-     - RABBIT_PASSWORD=rabbit_test_password
-     - USER=rabbit_user
-     - RABBITMQ_NODENAME=rabbit
-  ports:
-    - "8100:5672"
+  inasafe: &inasafe
+    build: docker-inasafe
+    hostname: inasafe-realtime
+    environment:
+      - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+      - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
+      - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+      - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp
+      - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
+      - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      # Shake Environment
+      - INASAFE_SHAKE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+      - INASAFE_SHAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+      # Ash Environment
+      - ASHMAPS_DIR=/home/realtime/ashmaps
+      - INASAFE_ASH_VOLCANO_PATH=/home/realtime/analysis_data/ash/exposure/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp
+      - INASAFE_ASH_POPULATION_PATH=/home/realtime/analysis_data/ash/exposure/WorldPop_200m.tif
+      - INASAFE_ASH_LANDCOVER_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp
+      - INASAFE_ASH_CITIES_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp
+      - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp
+      - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/srtm_indo_hillshade.tif
+      - INASAFE_ASH_OVERVIEW_PATH=/home/realtime/analysis_data/ash/overview.shp
+      - WEB_DIR=/var/www
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - C_FORCE_ROOT=True
+    env_file:
+      - ./docker-inasafe/realtime-rest.env
+    volumes:
+      - ./inasafe-src:/home/realtime/src
+      - ./analysis_data:/home/realtime/analysis_data
+      - ./shakemaps:/home/realtime/shakemaps
+      - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+      - ./floodmaps:/home/realtime/floodmaps
+      - ./ashmaps:/home/realtime/ashmaps
+      - ./web:/var/www
+    working_dir: /home/realtime/src/inasafe
+    links:
+      - sftp:sftp
+      - rabbitmq:rabbitmq
 
-inasafe: &inasafe
-  build: docker-inasafe
-  hostname: inasafe-realtime
-  environment:
-    - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
-    - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
-    - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
-    - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp
-    - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
-    - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
-    - SHAKEMAPS_DIR=/home/realtime/shakemaps
-    - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
-    - FLOODMAPS_DIR=/home/realtime/floodmaps
-    # Shake Environment
-    - INASAFE_SHAKE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
-    - INASAFE_SHAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
-    # Ash Environment
-    - ASHMAPS_DIR=/home/realtime/ashmaps
-    - INASAFE_ASH_VOLCANO_PATH=/home/realtime/analysis_data/ash/exposure/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp
-    - INASAFE_ASH_POPULATION_PATH=/home/realtime/analysis_data/ash/exposure/WorldPop_200m.tif
-    - INASAFE_ASH_LANDCOVER_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp
-    - INASAFE_ASH_CITIES_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp
-    - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp
-    - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/srtm_indo_hillshade.tif
-    - INASAFE_ASH_OVERVIEW_PATH=/home/realtime/analysis_data/ash/overview.shp
-    - WEB_DIR=/var/www
-    - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-    - C_FORCE_ROOT=True
-  env_file:
-    - ./docker-inasafe/realtime-rest.env
-  volumes:
-    - ./inasafe-src:/home/realtime/src
-    - ./analysis_data:/home/realtime/analysis_data
-    - ./shakemaps:/home/realtime/shakemaps
-    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
-    - ./floodmaps:/home/realtime/floodmaps
-    - ./ashmaps:/home/realtime/ashmaps
-    - ./web:/var/www
-  working_dir: /home/realtime/src/inasafe
-  links:
-    - sftp:sftp
-    - rabbitmq:rabbitmq
+  # exactly the same like inasafe, but with container name to easily identify it
+  inasafe-shakemap-monitor:
+    <<: *inasafe
+  #  container_name: shakemap-monitor
+    command: /shakemaps_monitor.sh /home/realtime/shakemaps
+    links:
+      - rabbitmq:rabbitmq
 
-# exactly the same like inasafe, but with container name to easily identify it
-inasafe-shakemap-monitor:
-  <<: *inasafe
-#  container_name: shakemap-monitor
-  command: /shakemaps_monitor.sh /home/realtime/shakemaps
-  links:
-    - rabbitmq:rabbitmq
+  inasafe-shakemap-monitor-bnpb:
+    <<: *inasafe
+    command: /shakemaps_monitor.sh /home/realtime/shakemaps
+    volumes:
+  #  container_name: shakemap-monitor-bnpb
+      - ./inasafe-src:/home/realtime/src
+      - ./analysis_data:/home/realtime/analysis_data
+      - ./shakemaps-bnpb:/home/realtime/shakemaps
+      - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+      - ./floodmaps:/home/realtime/floodmaps
+      - ./ashmaps:/home/realtime/ashmaps
+      - ./web:/var/www
+    links:
+      - rabbitmq:rabbitmq
 
-inasafe-shakemap-monitor-bnpb:
-  <<: *inasafe
-  command: /shakemaps_monitor.sh /home/realtime/shakemaps
-  volumes:
-#  container_name: shakemap-monitor-bnpb
-    - ./inasafe-src:/home/realtime/src
-    - ./analysis_data:/home/realtime/analysis_data
-    - ./shakemaps-bnpb:/home/realtime/shakemaps
-    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
-    - ./floodmaps:/home/realtime/floodmaps
-    - ./ashmaps:/home/realtime/ashmaps
-    - ./web:/var/www
-  links:
-    - rabbitmq:rabbitmq
-
-inasafe-worker:
-  <<: *inasafe
-  working_dir: /home/realtime/src/inasafe
-  command: /start.sh celery-workers
-  container_name: realtime-celery-worker
-  links:
-    - rabbitmq:rabbitmq
+  inasafe-worker:
+    <<: *inasafe
+    working_dir: /home/realtime/src/inasafe
+    command: /start.sh celery-workers
+    container_name: realtime-celery-worker
+    links:
+      - rabbitmq:rabbitmq
