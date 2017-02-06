@@ -1,33 +1,39 @@
-inasafe: &inasafe
-  build: docker-inasafe
-  dockerfile: Dockerfile-dev
-  env_file:
-    - ./docker-inasafe/realtime-rest-dev.env
-  volumes:
-    - ./inasafe-src:/home/realtime/src
-    - ./analysis_data:/home/realtime/analysis_data
-    - ./shakemaps:/home/realtime/shakemaps
-    - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
-    - ./floodmaps:/home/realtime/floodmaps
-    - ./web:/var/www
-    - ./pycharm-helpers:/root/.pycharm_helpers
-  ports:
-    # expose ssh ports
-    - "35103:22"
+version: "2"
+services:
+  inasafe: &inasafe
+    build:
+      context: ./docker-inasafe
+      dockerfile: Dockerfile-dev
+    env_file:
+      - ./docker-inasafe/realtime-rest-dev.env
+    volumes:
+      - ./inasafe-src:/home/realtime/src
+      - ./analysis_data:/home/realtime/analysis_data
+      - ./shakemaps:/home/realtime/shakemaps
+      - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
+      - ./floodmaps:/home/realtime/floodmaps
+      - ./web:/var/www
+      - ./pycharm-helpers:/root/.pycharm_helpers
+    ports:
+      # expose ssh ports
+      - "35103:22"
 
-# exactly the same like inasafe, but with container name to easily identify it
-inasafe-shakemap-monitor:
-  dockerfile: Dockerfile-dev
-  command: /start-dev.sh
-  ports:
-    - "35104:22"
-#  container_name: shakemap-monitor
+  # exactly the same like inasafe, but with container name to easily identify it
+  inasafe-shakemap-monitor:
+    build:
+      dockerfile: Dockerfile-dev
+    command: /start-dev.sh
+    ports:
+      - "35104:22"
+  #  container_name: shakemap-monitor
 
-inasafe-shakemap-monitor-bnpb:
-  dockerfile: Dockerfile-dev
-  command: /start-dev.sh
-  ports:
-    - "35105:22"
+  inasafe-shakemap-monitor-bnpb:
+    build:
+      dockerfile: Dockerfile-dev
+    command: /start-dev.sh
+    ports:
+      - "35105:22"
 
-inasafe-worker:
-  dockerfile: Dockerfile-dev
+  inasafe-worker:
+    build:
+      dockerfile: Dockerfile-dev

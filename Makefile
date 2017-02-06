@@ -28,7 +28,7 @@ build:
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build
 
-deploy:
+up:
 	@echo
 	@echo "--------------------------"
 	@echo "Bringing up fresh instances"
@@ -36,8 +36,8 @@ deploy:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d btsync
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d bnpb-sync
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d sftp
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d apache
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d --force-recreate apache
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d --force-recreate inasafe
 
 bmkg-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor
@@ -79,7 +79,7 @@ inasafe-worker:
 	@echo "--------------------------"
 	@echo "Running InaSAFE Workers"
 	@echo "--------------------------"
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-worker
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d --force-recreate inasafe-worker
 
 inasafe-worker-log:
 	@echo
@@ -94,7 +94,7 @@ restart-inasafe-worker: stop-inasafe-worker
 	@echo "Hard Restart InaSAFE Workers"
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) rm inasafe-worker
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-worker
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d --force-recreate inasafe-worker
 
 stop-inasafe-worker:
 	@echo
