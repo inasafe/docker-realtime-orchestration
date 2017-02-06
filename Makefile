@@ -35,6 +35,9 @@ up:
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d btsync
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d bnpb-sync
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d shakemaps-extracted-sync
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d floodmaps-sync
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d ashmaps-sync
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d sftp
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d --force-recreate apache
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d --force-recreate inasafe

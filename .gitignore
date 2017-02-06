@@ -36,6 +36,9 @@ docker-inasafe/realtime-rest.env
 docker-inasafe/realtime-rest-dev.env
 docker-bnpb-sync/bnpb_credential.env
 docker-btsync/btsync.env
+docker-shakemaps-extracted-sync/btsync.env
+docker-floodmaps-sync/btsync.env
+docker-ashmaps-sync/btsync.env
 
 # ignore buildfiles
 .shakemonitor-id

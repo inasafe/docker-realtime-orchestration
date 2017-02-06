@@ -23,6 +23,30 @@ services:
     env_file:
       - ./docker-bnpb-sync/bnpb_credential.env
 
+  shakemaps-extracted-sync:
+    image: kartoza/btsync
+    hostname: shakemaps-extracted-sync
+    volumes:
+      - ./shakemaps-extracted:/web
+    env_file:
+      - ./docker-shakemaps-extracted-sync/btsync.env
+
+  floodmaps-sync:
+    image: kartoza/btsync
+    hostname: floodmaps-sync
+    volumes:
+      - ./floodmaps:/web
+    env_file:
+      - ./docker-floodmaps-sync/btsync.env
+
+  ashmaps-sync:
+    image: kartoza/btsync
+    hostname: ashmaps-sync
+    volumes:
+      - ./ashmaps:/web
+    env_file:
+      - ./docker-ashmaps-sync/btsync.env
+
   sftp:
     build: docker-sftp
     hostname: inasafe-sftp
