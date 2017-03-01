@@ -54,6 +54,7 @@ services:
       - ./ssh-config:/home/realtime/.ssh
       - ./etc-ssh-config:/etc/ssh
       - ./shakemaps:/home/realtime/shakemaps
+      - ./shakemaps-corrected:/home/realtime/shakemaps-corrected
     ports:
       - "9222:22"
 
