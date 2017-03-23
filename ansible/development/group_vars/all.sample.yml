@@ -1,0 +1,47 @@
+---
+
+remote_user: lucernae
+remote_group: staff
+project_path: "/Users/lucernae/Documents/WorkingDir/Projects/InaSAFE/docker-realtime-orchestration"
+
+interpreters:
+  inasafe_realtime:
+    name: 'InaSAFE Realtime Container'
+    domain_alias: 'docker-realtime-orchestration'
+    ssh_port: &inasafe_realtime_ssh_port 35103
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: &inasafe_realtime_host_ip 192.168.1.7
+
+inasafe:
+  repo: https://github.com/lucernae/inasafe.git
+  remote: upstream
+  version: realtime-backport-cherry-pick
+
+docker_port_forward:
+  inasafe_realtime:
+    ssh: *inasafe_realtime_ssh_port
+
+btsync:
+  analysis_data:
+    secret: BMRMQI2JSG72SUOWMLRY2LD4POCAQQDW3
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  ashmaps:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  bnpb_sync:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  floodmaps:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  shakemaps_extracted:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+
+realtime_rest_api:
+  host: *inasafe_realtime_host_ip
+  port: 61102
+  user: test@realtime.inasafe.org
+  password: thepaassword
+
+apt_cacher_ng_line: '#Acquire::http { Proxy "http://192.168.1.7:3142"; };'

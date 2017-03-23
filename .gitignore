@@ -43,3 +43,8 @@ docker-ashmaps-sync/btsync.env
 # ignore buildfiles
 .shakemonitor-id
 realtime/ash/test/data/temp/
+ansible/tmp/*
+ansible/development/group_vars/all
+site.retry
+
+!ansible/tmp/.gitkeep

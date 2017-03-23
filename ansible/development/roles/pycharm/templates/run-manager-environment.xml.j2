@@ -1,0 +1,27 @@
+
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/realtime/src/inasafe" />
+        <env name="DISPLAY" value=":99" />
+        <env name="INASAFE_LOCALE" value="id" />
+        <env name="C_FORCE_ROOT" value="True" />
+        <env name="INASAFE_REALTIME_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="INASAFE_REALTIME_REST_USER" value="{{ realtime_rest_api.user }}" />
+        <env name="INASAFE_REALTIME_REST_PASSWORD" value="{{ realtime_rest_api.password }}" />
+        <env name="INASAFE_REALTIME_REST_URL" value="http://{{ realtime_rest_api.host }}:{{ realtime_rest_api.port }}/realtime/api/v1" />
+        <env name="INASAFE_WORK_DIR" value="/home/realtime/" />
+        <env name="SHAKEMAPS_DIR" value="/home/realtime/shakemaps" />
+        <env name="SHAKEMAPS_EXTRACT_DIR" value="/home/realtime/shakemaps-extracted" />
+        <env name="INASAFE_REALTIME_TEMPLATE" value="/home/realtime/analysis_data/realtime-template.qpt" />
+        <env name="INASAFE_REALTIME_PROJECT" value="/home/realtime/analysis_data/realtime.qgs" />
+        <env name="INASAFE_POPULATION_PATH" value="/home/realtime/analysis_data/exposure/population.tif" />
+        <env name="GEONAMES_SQLITE_PATH" value="/home/realtime/analysis_data/indonesia.sqlite" />
+        <env name="FLOODMAPS_DIR" value="/home/realtime/floodmaps" />
+        <env name="INASAFE_FLOOD_POPULATION_PATH" value="/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp" />
+        <env name="INASAFE_ASHMAPS_DIR" value="/home/realtime/ashmaps" />
+        <env name="INASAFE_ASH_AIRPORT_PATH" value="/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp" />
+        <env name="INASAFE_ASH_CITIES_PATH" value="/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp" />
+        <env name="INASAFE_ASH_POPULATION_PATH" value="/home/realtime/analysis_data/ash/exposure/WorldPop_200m.tif" />
+        <env name="INASAFE_ASH_LANDCOVER_PATH" value="/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp" />
+        <env name="INASAFE_ASH_OVERVIEW_PATH" value="/home/realtime/analysis_data/ash/overview.shp" />
+        <env name="INASAFE_ASH_HIGHLIGHT_BASE_PATH" value="/home/realtime/analysis_data/ash/srtm_indo_hillshade.tif" />
+        <env name="INASAFE_ASH_VOLCANO_PATH" value="/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp" />
