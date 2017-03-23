@@ -1,0 +1,37 @@
+---
+- name: customize apt cacher ng
+  template:
+    src: apt-cacher-ng.j2
+    dest: '{{ project_path }}/{{ item }}/71-apt-cacher-ng'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+  with_items:
+    - docker-inasafe
+    - docker-apache
+    - docker-sftp
+
+- name: customize btsync
+  template:
+    src: 'btsync/{{ item.template }}'
+    dest: '{{ project_path }}/{{ item.dest }}'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+  with_items:
+    - { template: 'bnpb_sync.env.j2', dest: 'docker-bnpb-sync/bnpb_credential.env'}
+    - { template: 'analysis_data.env.j2', dest: 'docker-btsync/btsync.env'}
+    - { template: 'shakemaps_extracted.env.j2', dest: 'docker-shakemaps-extracted-sync/btsync.env'}
+    - { template: 'floodmaps.env.j2', dest: 'docker-floodmaps-sync/btsync.env'}
+    - { template: 'ashmaps.env.j2', dest: 'docker-ashmaps-sync/btsync.env'}
+
+- name: customize Realtime REST API env
+  template:
+    src: realtime_rest_api/realtime-rest.env.j2
+    dest: '{{ project_path }}/docker-inasafe/{{ item }}'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+  with_items:
+    - 'realtime-rest.env'
+    - 'realtime-rest-dev.env'

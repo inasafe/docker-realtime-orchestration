@@ -28,6 +28,15 @@ build:
 	@echo "--------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build
 
+ansible-check:
+	@echo "Check ansible command"
+	@ansible -i ansible/development/hosts all -m ping
+	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml --check --list-tasks --list-hosts
+
+setup-ansible:
+	@echo "Setup configurations using ansible"
+	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml -v
+
 up:
 	@echo
 	@echo "--------------------------"

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/inasafe-src/inasafe" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/analysis_data" />
+      <excludeFolder url="file://$MODULE_DIR$/ashmaps" />
+      <excludeFolder url="file://$MODULE_DIR$/etc-ssh-config" />
+      <excludeFolder url="file://$MODULE_DIR$/floodmaps" />
+      <excludeFolder url="file://$MODULE_DIR$/shakemaps" />
+      <excludeFolder url="file://$MODULE_DIR$/shakemaps-extracted" />
+      <excludeFolder url="file://$MODULE_DIR$/ssh-config" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+    </content>
+    <orderEntry type="jdk" jdkName="{{ interpreters.inasafe_realtime.name }}" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PackageRequirementsSettings">
+    <option name="requirementsPath" value="" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="projectConfiguration" value="Nosetests" />
+    <option name="PROJECT_TEST_RUNNER" value="Nosetests" />
+  </component>
+</module>

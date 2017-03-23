@@ -1,0 +1,20 @@
+---
+- name: checkout InaSAFE source code
+  git:
+    repo: '{{ inasafe.repo }}'
+    remote: '{{ inasafe.remote }}'
+    dest: '{{ project_path }}/inasafe-src/inasafe'
+    version: '{{ inasafe.version }}'
+    force: no
+    update: yes
+
+- name: customize InaSAFE celeryconfig
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ project_path }}/inasafe-src/inasafe/{{ item.dest }}/celeryconfig.py'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+  with_items:
+    - { src: 'inasafe-headless-celeryconfig.py.j2', dest: 'headless' }
+    - { src: 'inasafe-realtime-celeryconfig.py.j2', dest: 'realtime' }
