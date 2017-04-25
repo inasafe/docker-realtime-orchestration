@@ -12,7 +12,7 @@ RUN  dpkg-divert --local --rename --add /sbin/initctl
 ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
-RUN apt-get -y update; apt-get install -y apache2 vim
+RUN apt-get -y update; apt-get install -y apache2
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data

@@ -23,6 +23,14 @@ services:
     env_file:
       - ./docker-bnpb-sync/bnpb_credential.env
 
+  bmkg-sync:
+    image: kartoza/btsync
+    hostname: bmkg-sync
+    volumes:
+      - ./shakemaps:/web
+    env_file:
+      - ./docker-bnpb-sync/bnpb_credential.env
+
   shakemaps-extracted-sync:
     image: kartoza/btsync
     hostname: shakemaps-extracted-sync
@@ -30,6 +38,22 @@ services:
       - ./shakemaps-extracted:/web
     env_file:
       - ./docker-shakemaps-extracted-sync/btsync.env
+
+  shakemaps-corrected-sync:
+    image: kartoza/btsync
+    hostname: shakemaps-corrected-sync
+    volumes:
+      - ./shakemaps-corrected:/web
+    env_file:
+      - ./docker-shakemaps-corrected-sync/btsync.env
+
+  shakemaps-corrected-extracted-sync:
+    image: kartoza/btsync
+    hostname: shakemaps-corrected-extracted-sync
+    volumes:
+      - ./shakemaps-corrected-extracted:/web
+    env_file:
+      - ./docker-shakemaps-corrected-extracted-sync/btsync.env
 
   floodmaps-sync:
     image: kartoza/btsync
@@ -130,8 +154,8 @@ services:
   inasafe-shakemap-monitor-bnpb:
     <<: *inasafe
     command: /shakemaps_monitor.sh /home/realtime/shakemaps
-    volumes:
   #  container_name: shakemap-monitor-bnpb
+    volumes:
       - ./inasafe-src:/home/realtime/src
       - ./analysis_data:/home/realtime/analysis_data
       - ./shakemaps-bnpb:/home/realtime/shakemaps
@@ -139,6 +163,47 @@ services:
       - ./floodmaps:/home/realtime/floodmaps
       - ./ashmaps:/home/realtime/ashmaps
       - ./web:/var/www
+    links:
+      - rabbitmq:rabbitmq
+
+  inasafe-shakemap-corrected-monitor:
+    <<: *inasafe
+  #  container_name: shakemap-corrected-monitor
+    command: /shakemaps_monitor.sh /home/realtime/shakemaps-corrected
+    volumes:
+      - ./inasafe-src:/home/realtime/src
+      - ./analysis_data:/home/realtime/analysis_data
+      - ./shakemaps-corrected:/home/realtime/shakemaps
+      - ./shakemaps-corrected-extracted:/home/realtime/shakemaps-extracted
+      - ./floodmaps:/home/realtime/floodmaps
+      - ./ashmaps:/home/realtime/ashmaps
+      - ./web:/var/www
+    environment:
+      - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+      - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
+      - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+      - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp
+      - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
+      - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      # Shake Environment
+      - INASAFE_SHAKE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+      - INASAFE_SHAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+      # Ash Environment
+      - ASHMAPS_DIR=/home/realtime/ashmaps
+      - INASAFE_ASH_VOLCANO_PATH=/home/realtime/analysis_data/ash/exposure/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp
+      - INASAFE_ASH_POPULATION_PATH=/home/realtime/analysis_data/ash/exposure/WorldPop_200m.tif
+      - INASAFE_ASH_LANDCOVER_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp
+      - INASAFE_ASH_CITIES_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp
+      - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp
+      - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/srtm_indo_hillshade.tif
+      - INASAFE_ASH_OVERVIEW_PATH=/home/realtime/analysis_data/ash/overview.shp
+      - WEB_DIR=/var/www
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - C_FORCE_ROOT=True
+      - SHAKEMAPS_CATEGORY="BMKG - Corrected"
     links:
       - rabbitmq:rabbitmq
 

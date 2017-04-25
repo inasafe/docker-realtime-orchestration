@@ -14,6 +14,8 @@ inasafe-src/*
 ssh-config/*
 etc-ssh-config/*
 shakemaps-bnpb/*
+shakemaps-corrected/*
+shakemaps-corrected-extracted/*
 pycharm-helpers
 
 # Ignore everything except the these files / subdirs in these dirs:
@@ -21,6 +23,8 @@ pycharm-helpers
 !shakemaps/README.txt
 !ashmaps/README.txt
 !shakemaps-extracted/README.txt
+!shakemaps-corrected/README.txt
+!shakemaps-corrected-extracted/README.txt
 !floodmaps/README.txt
 !ssh-config/README.txt
 !etc-ssh-config/README.txt
@@ -35,8 +39,11 @@ pycharm-helpers
 docker-inasafe/realtime-rest.env
 docker-inasafe/realtime-rest-dev.env
 docker-bnpb-sync/bnpb_credential.env
+docker-bmkg-sync/bmkg_credential.env
 docker-btsync/btsync.env
 docker-shakemaps-extracted-sync/btsync.env
+docker-shakemaps-corrected-extracted-sync/btsync.env
+docker-shakemaps-corrected-sync/btsync.env
 docker-floodmaps-sync/btsync.env
 docker-ashmaps-sync/btsync.env
 
