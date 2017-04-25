@@ -13,7 +13,7 @@ services:
       - ./shakemaps-extracted:/home/realtime/shakemaps-extracted
       - ./floodmaps:/home/realtime/floodmaps
       - ./web:/var/www
-      - ./pycharm-helpers:/root/.pycharm_helpers
+      - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
     ports:
       # expose ssh ports
       - "35103:22"
@@ -23,6 +23,8 @@ services:
     build:
       dockerfile: Dockerfile-dev
     command: /start-dev.sh
+    volumes:
+      - ./pycharm-helpers/inasafe-shakemap-monitor:/root/.pycharm_helpers
     ports:
       - "35104:22"
   #  container_name: shakemap-monitor
@@ -33,6 +35,15 @@ services:
     command: /start-dev.sh
     ports:
       - "35105:22"
+
+  inasafe-shakemap-corrected-monitor:
+    build:
+      dockerfile: Dockerfile-dev
+    command: /start-dev.sh
+    volumes:
+      - ./pycharm-helpers/inasafe-shakemap-corrected-monitor:/root/.pycharm_helpers
+    ports:
+      - "35106:22"
 
   inasafe-worker:
     build:

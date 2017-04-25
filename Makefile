@@ -53,10 +53,12 @@ up:
 
 bmkg-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-corrected-monitor
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) stop inasafe-shakemap-monitor-bnpb
 
 bnpb-monitor:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-monitor-bnpb
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) up -d inasafe-shakemap-corrected-monitor
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) stop inasafe-shakemap-monitor
 
 down:
