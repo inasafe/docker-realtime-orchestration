@@ -29,7 +29,7 @@ services:
     volumes:
       - ./shakemaps:/web
     env_file:
-      - ./docker-bnpb-sync/bnpb_credential.env
+      - ./docker-bmkg-sync/bmkg_credential.env
 
   shakemaps-extracted-sync:
     image: kartoza/btsync
