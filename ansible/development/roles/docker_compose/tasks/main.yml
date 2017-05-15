@@ -20,8 +20,11 @@
     mode: "u=rw,g=rw,o=r"
   with_items:
     - { template: 'bnpb_sync.env.j2', dest: 'docker-bnpb-sync/bnpb_credential.env'}
+    - { template: 'bmkg_sync.env.j2', dest: 'docker-bmkg-sync/bmkg_credential.env'}
     - { template: 'analysis_data.env.j2', dest: 'docker-btsync/btsync.env'}
     - { template: 'shakemaps_extracted.env.j2', dest: 'docker-shakemaps-extracted-sync/btsync.env'}
+    - { template: 'shakemaps_corrected.env.j2', dest: 'docker-shakemaps-corrected-sync/btsync.env'}
+    - { template: 'shakemaps_corrected_extracted.env.j2', dest: 'docker-shakemaps-corrected-extracted-sync/btsync.env'}
     - { template: 'floodmaps.env.j2', dest: 'docker-floodmaps-sync/btsync.env'}
     - { template: 'ashmaps.env.j2', dest: 'docker-ashmaps-sync/btsync.env'}
 
