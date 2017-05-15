@@ -31,10 +31,19 @@ btsync:
   bnpb_sync:
     secret:
     device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  bmkg_sync:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
   floodmaps:
     secret:
     device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
   shakemaps_extracted:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  shakemaps_corrected:
+    secret:
+    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+  shakemaps_corrected_extracted:
     secret:
     device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
 
