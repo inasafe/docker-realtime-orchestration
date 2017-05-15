@@ -3,8 +3,8 @@ FROM debian:jessie
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
 
-RUN echo "deb     http://qgis.org/debian jessie main" >> /etc/apt/sources.list
-RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
+RUN echo "deb     http://qgis.org/debian-ltr jessie main" >> /etc/apt/sources.list
+RUN echo "deb-src http://qgis.org/debian-ltr jessie main" >> /etc/apt/sources.list
 #RUN echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list
 #RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
 
