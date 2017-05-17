@@ -14,7 +14,7 @@ ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 # socat can be used to proxy an external port and make it look like it is local
-RUN apt-get -y update; apt-get -y install ca-certificates openssh-server pwgen
+RUN apt-get -y update; apt-get -y install ca-certificates openssh-server pwgen rsync
 RUN mkdir /var/run/sshd
 
 # Ubuntu 14.04 by default only allows non pwd based root login
