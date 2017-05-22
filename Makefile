@@ -72,7 +72,7 @@ checkout:
 	@echo "--------------------------"
 	@echo "Checkout InaSAFE develop "
 	@echo "--------------------------"
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run --rm inasafe /start.sh checkout develop
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) run --rm inasafe /start.sh checkout realtime-backport-cherry-pick
 
 inasafe-env:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec inasafe /bin/bash -c "source run-env-realtime.sh && printenv"
