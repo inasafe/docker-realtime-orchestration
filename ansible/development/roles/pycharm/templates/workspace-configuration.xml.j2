@@ -1,5 +1,5 @@
 
-  <component name="RunManager">
+  <component name="RunManager" selected="Run Monitoring Service">
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
@@ -269,7 +269,43 @@
       <envs>
         {% include 'run-manager-environment.xml.j2' %}
       </envs>
-      <option name="SDK_HOME" value="ssh://root@{{ interpreters.inasafe_realtime.domain_alias }}:{{ interpreters.inasafe_realtime.ssh_port }}/usr/bin/python" />
+      <option name="SDK_HOME" value="ssh://root@{{ interpreters.inasafe_shakemap_monitor.domain_alias }}:{{ interpreters.inasafe_shakemap_monitor.ssh_port }}/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/inasafe-src/inasafe/realtime/earthquake" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-realtime-orchestration" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inasafe-src/inasafe/realtime/earthquake/notify_new_shake.py" />
+      <option name="PARAMETERS" value="/home/realtime/shakemaps" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Run Monitoring Service - BNPB" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        {% include 'run-manager-environment.xml.j2' %}
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@{{ interpreters.inasafe_shakemap_monitor_bnpb.domain_alias }}:{{ interpreters.inasafe_shakemap_monitor_bnpb.ssh_port }}/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/inasafe-src/inasafe/realtime/earthquake" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-realtime-orchestration" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inasafe-src/inasafe/realtime/earthquake/notify_new_shake.py" />
+      <option name="PARAMETERS" value="/home/realtime/shakemaps" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Run Monitoring Service - Shakemap Corrected" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        {% include 'run-manager-environment.xml.j2' %}
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@{{ interpreters.inasafe_shakemap_corrected_monitor.domain_alias }}:{{ interpreters.inasafe_shakemap_corrected_monitor.ssh_port }}/usr/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/inasafe-src/inasafe/realtime/earthquake" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />

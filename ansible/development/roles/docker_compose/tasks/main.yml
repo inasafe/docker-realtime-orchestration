@@ -1,4 +1,15 @@
 ---
+
+- name: customize docker-compose.override.yml
+  template:
+    src: docker-compose.override.yml.j2
+    dest: '{{ project_path }}/docker-compose.override.yml'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+  tags:
+    - development
+
 - name: customize apt cacher ng
   template:
     src: apt-cacher-ng.j2
@@ -10,6 +21,8 @@
     - docker-inasafe
     - docker-apache
     - docker-sftp
+  tags:
+    - development
 
 - name: customize btsync
   template:

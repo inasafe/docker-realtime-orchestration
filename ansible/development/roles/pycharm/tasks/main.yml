@@ -45,11 +45,17 @@
     mode: "u=rw,g=rw,o=r"
   with_items:
     - inasafe-realtime.xml.j2
+    - inasafe-shakemap-monitor.xml.j2
+    - inasafe-shakemap-monitor-bnpb.xml.j2
+    - inasafe-shakemap-corrected-monitor.xml.j2
 
 - name: inject python interpreter definitions
   command: python inject_python_interpreter.py "{{ pycharm_settings_path }}/options/jdk.table.xml" "{{ project_path }}/ansible/tmp/{{ item }}"
   with_items:
     - inasafe-realtime.xml.j2
+    - inasafe-shakemap-monitor.xml.j2
+    - inasafe-shakemap-monitor-bnpb.xml.j2
+    - inasafe-shakemap-corrected-monitor.xml.j2
   args:
     chdir: "{{ project_path }}/ansible/development/roles/pycharm/files/"
 

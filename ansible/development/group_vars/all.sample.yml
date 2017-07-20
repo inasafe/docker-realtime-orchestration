@@ -1,5 +1,6 @@
 ---
 
+use_pycharm: yes
 remote_user: lucernae
 remote_group: staff
 project_path: "/Users/lucernae/Documents/WorkingDir/Projects/InaSAFE/docker-realtime-orchestration"
@@ -11,6 +12,24 @@ interpreters:
     ssh_port: &inasafe_realtime_ssh_port 35103
     pycharm_helpers: /root/.pycharm_helpers
     ipaddress: &inasafe_realtime_host_ip 192.168.1.7
+  inasafe_shakemap_monitor:
+    name: 'InaSAFE Shakemap Monitor Container'
+    domain_alias: 'docker-realtime-orchestration'
+    ssh_port: &inasafe_shakemap_monitor_ssh_port 35104
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: *inasafe_realtime_host_ip
+  inasafe_shakemap_monitor_bnpb:
+    name: 'InaSAFE Shakemap Monitor BNPB Container'
+    domain_alias: 'docker-realtime-orchestration'
+    ssh_port: &inasafe_shakemap_monitor_bnpb_ssh_port 35105
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: *inasafe_realtime_host_ip
+  inasafe_shakemap_corrected_monitor:
+    name: 'InaSAFE Shakemap Monitor BNPB Container'
+    domain_alias: 'docker-realtime-orchestration'
+    ssh_port: &inasafe_shakemap_corrected_monitor_ssh_port 35106
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: *inasafe_realtime_host_ip
 
 inasafe:
   repo: https://github.com/lucernae/inasafe.git
@@ -20,6 +39,12 @@ inasafe:
 docker_port_forward:
   inasafe_realtime:
     ssh: *inasafe_realtime_ssh_port
+  inasafe_shakemap_monitor:
+    ssh: *inasafe_shakemap_monitor_ssh_port
+  inasafe_shakemap_monitor_bnpb:
+    ssh: *inasafe_shakemap_monitor_bnpb_ssh_port
+  inasafe_shakemap_corrected_monitor:
+    ssh: *inasafe_shakemap_corrected_monitor_ssh_port
 
 btsync:
   analysis_data:

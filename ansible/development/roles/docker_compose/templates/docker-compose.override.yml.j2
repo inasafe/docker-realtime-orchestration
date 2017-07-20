@@ -16,7 +16,7 @@ services:
       - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
     ports:
       # expose ssh ports
-      - "35103:22"
+      - "{{ docker_port_forward.inasafe_realtime.ssh }}:22"
 
   # exactly the same like inasafe, but with container name to easily identify it
   inasafe-shakemap-monitor:
@@ -26,15 +26,17 @@ services:
     volumes:
       - ./pycharm-helpers/inasafe-shakemap-monitor:/root/.pycharm_helpers
     ports:
-      - "35104:22"
+      - "{{ docker_port_forward.inasafe_shakemap_monitor.ssh }}:22"
   #  container_name: shakemap-monitor
 
   inasafe-shakemap-monitor-bnpb:
     build:
       dockerfile: Dockerfile-dev
     command: /start-dev.sh
+    volumes:
+      - ./pycharm-helpers/inasafe-shakemap-monitor-bnpb:/root/.pycharm_helpers
     ports:
-      - "35105:22"
+      - "{{ docker_port_forward.inasafe_shakemap_monitor_bnpb.ssh }}:22"
 
   inasafe-shakemap-corrected-monitor:
     build:
@@ -43,7 +45,7 @@ services:
     volumes:
       - ./pycharm-helpers/inasafe-shakemap-corrected-monitor:/root/.pycharm_helpers
     ports:
-      - "35106:22"
+      - "{{ docker_port_forward.inasafe_shakemap_corrected_monitor.ssh }}:22"
 
   inasafe-worker:
     build:
