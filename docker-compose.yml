@@ -92,6 +92,7 @@ services:
 
   rabbitmq:
     image: library/rabbitmq
+    restart: on-failure
     hostname: rabbitmq
     environment:
        - RABBIT_PASSWORD=rabbit_test_password
@@ -146,6 +147,7 @@ services:
   # exactly the same like inasafe, but with container name to easily identify it
   inasafe-shakemap-monitor:
     <<: *inasafe
+    restart: on-failure
   #  container_name: shakemap-monitor
     command: /shakemaps_monitor.sh /home/realtime/shakemaps
     links:
@@ -153,6 +155,7 @@ services:
 
   inasafe-shakemap-monitor-bnpb:
     <<: *inasafe
+    restart: on-failure
     command: /shakemaps_monitor.sh /home/realtime/shakemaps
   #  container_name: shakemap-monitor-bnpb
     volumes:
@@ -168,6 +171,7 @@ services:
 
   inasafe-shakemap-corrected-monitor:
     <<: *inasafe
+    restart: on-failure
   #  container_name: shakemap-corrected-monitor
     command: /shakemaps_monitor.sh /home/realtime/shakemaps-corrected
     volumes:
@@ -209,6 +213,7 @@ services:
 
   inasafe-worker:
     <<: *inasafe
+    restart: on-failure
     working_dir: /home/realtime/src/inasafe
     command: /start.sh celery-workers
     container_name: realtime-celery-worker

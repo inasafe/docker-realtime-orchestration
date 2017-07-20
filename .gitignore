@@ -1,4 +1,5 @@
 .idea
+.DS_Store
 venv
 src
 temp/
@@ -50,6 +51,7 @@ docker-ashmaps-sync/btsync.env
 # ignore buildfiles
 .shakemonitor-id
 realtime/ash/test/data/temp/
+docker-compose.override.yml
 ansible/tmp/*
 ansible/development/group_vars/all
 site.retry
