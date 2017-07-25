@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ $# -ne 2 ]
 then 
-	echo 'How to user:'
+	echo 'How to use:'
 	echo 'setup-apt-cache.sh [interface_name] [foldername]'
 fi
 
