@@ -5,21 +5,13 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
 
 RUN echo "deb     http://qgis.org/debian-ltr jessie main" >> /etc/apt/sources.list
 RUN echo "deb-src http://qgis.org/debian-ltr jessie main" >> /etc/apt/sources.list
-#RUN echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list
-#RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
 
 RUN apt-get -y update; apt-get -y --force-yes install qgis python-qgis
 RUN apt-get -y update; apt-get -y --force-yes install build-essential autoconf libtool pkg-config
-#RUN pip install cython
 
 RUN export DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_FRONTEND noninteractive
 RUN dpkg-divert --local --rename --add /sbin/initctl
-
-# Use local cached debs from host (saves your bandwidth!)
-# Change ip below to that of your apt-cacher-ng host
-# Or comment this line out if you do not wish to use caching
-ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
 RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
