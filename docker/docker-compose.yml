@@ -1,0 +1,169 @@
+version: "2"
+volumes:
+  analysis-data:
+  shakemaps-bnpb-data:
+  shakemaps-bmkg-data:
+  shakemaps-extracted-data:
+  shakemaps-corrected-data:
+  shakemaps-extracted-corrected-data:
+  floodmaps-data:
+  ashmaps-data:
+  sftp-ssh-data:
+  sftp-ssh-config-data:
+services:
+  analysis-data-sync:
+    image: kartoza/btsync
+    volumes:
+      - analysis-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  bnpb-sync:
+    image: kartoza/btsync
+    volumes:
+      - shakemaps-bnpb-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  bmkg-sync:
+    image: kartoza/btsync
+    volumes:
+      - shakemaps-bmkg-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  shakemaps-extracted-sync:
+    image: kartoza/btsync
+    volumes:
+      - shakemaps-extracted-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  shakemaps-corrected-sync:
+    image: kartoza/btsync
+    volumes:
+      - shakemaps-corrected-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  shakemaps-corrected-extracted-sync:
+    image: kartoza/btsync
+    volumes:
+      - shakemaps-corrected-extracted-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  floodmaps-sync:
+    image: kartoza/btsync
+    volumes:
+      - floodmaps-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  ashmaps-sync:
+    image: kartoza/btsync
+    volumes:
+      - ashmaps-data:/web
+    environment:
+      - SECRET=
+      - DEVICE=
+
+  sftp:
+    image: kartoza/realtime-orchestration_sftp
+    restart: on-failure
+    volumes:
+      - sftp-ssh-data:/home/realtime/.ssh
+      - sftp-ssh-config-data:/etc/ssh
+      - shakemaps-data:/home/realtime/shakemaps
+      - shakemaps-corrected-data:/home/realtime/shakemaps-corrected
+    ports:
+      - "9222:22"
+
+  rabbitmq:
+    image: library/rabbitmq
+    restart: on-failure
+    hostname: rabbitmq
+    environment:
+       - RABBIT_PASSWORD=rabbit_test_password
+       - USER=rabbit_user
+       - RABBITMQ_NODENAME=rabbit
+    ports:
+      - "8100:5672"
+
+  inasafe: &inasafe
+    build: kartoza/realtime-orchestration_inasafe
+    environment:
+      - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+      - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
+      - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+      - INASAFE_FLOOD_POPULATION_PATH=/home/realtime/analysis_data/exposure/DKI_Jakarta_Population_Dukcapil_Ages_WGS84.shp
+      - GEONAMES_SQLITE_PATH=/home/realtime/analysis_data/indonesia.sqlite
+      - INASAFE_SOURCE_DIR=/home/realtime/src/inasafe
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - SHAKEMAPS_EXTRACT_DIR=/home/realtime/shakemaps-extracted
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      # Shake Environment
+      - INASAFE_SHAKE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
+      - INASAFE_SHAKE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
+      # Ash Environment
+      - ASHMAPS_DIR=/home/realtime/ashmaps
+      - INASAFE_ASH_VOLCANO_PATH=/home/realtime/analysis_data/ash/exposure/home/realtime/analysis_data/ash/exposure/GVP_Volcano_List_Darwin_VAAC_AOR_final.shp
+      - INASAFE_ASH_POPULATION_PATH=/home/realtime/analysis_data/ash/exposure/WorldPop_200m.tif
+      - INASAFE_ASH_LANDCOVER_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Landcover_250K_WGS84.shp
+      - INASAFE_ASH_CITIES_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Capital_City_Point_WGS84.shp
+      - INASAFE_ASH_AIRPORT_PATH=/home/realtime/analysis_data/ash/exposure/IDN_Airport_OpenFlights_WGS84.shp
+      - INASAFE_ASH_HIGHLIGHT_BASE_PATH=/home/realtime/analysis_data/ash/srtm_indo_hillshade.tif
+      - INASAFE_ASH_OVERVIEW_PATH=/home/realtime/analysis_data/ash/overview.shp
+      - WEB_DIR=/var/www
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - C_FORCE_ROOT=True
+      # Environment for InaSAFE Django
+      - INASAFE_REALTIME_REST_URL=http://realtime-api:8000/realtime/api/v1/
+      # change user and pass to the correct credentials
+      - INASAFE_REALTIME_REST_USER=test@realtime.inasafe.org
+      - INASAFE_REALTIME_REST_PASSWORD=t3st4ccount
+      - INASAFE_REALTIME_REST_LOGIN_URL=http://realtime-api:8000/realtime/api-auth/login/
+      - INASAFE_REALTIME_SHAKEMAP_HOOK_URL=http://realtime-api:8000/realtime/api/v1/indicator/notify_shakemap_push
+    volumes:
+      - analysis-data:/home/realtime/analysis_data
+      - shakemaps-data:/home/realtime/shakemaps
+      - shakemaps-extracted-data:/home/realtime/shakemaps-extracted
+      - floodmaps-data:/home/realtime/floodmaps
+      - ashmaps-data:/home/realtime/ashmaps
+    working_dir: /home/realtime/src/inasafe
+    links:
+      - sftp:sftp
+      - rabbitmq:rabbitmq
+
+  inasafe-shakemap-monitor:
+    <<: *inasafe
+    restart: on-failure
+    command: /entry-point.sh shakemaps-monitor
+    links:
+      - rabbitmq:rabbitmq
+
+  inasafe-shakemap-monitor-bnpb:
+    <<: *inasafe
+    restart: on-failure
+    command: /entry-point.sh shakemaps-monitor
+    volumes:
+      - analysis-data:/home/realtime/analysis_data
+      - shakemaps-bnpb-data:/home/realtime/shakemaps
+      - shakemaps-extracted-data:/home/realtime/shakemaps-extracted
+    links:
+      - rabbitmq:rabbitmq
+
+  inasafe-worker:
+    <<: *inasafe
+    restart: on-failure
+    working_dir: /home/realtime/src/inasafe
+    command: /entry-point.sh celery-workers
+    links:
+      - rabbitmq:rabbitmq
