@@ -34,7 +34,7 @@ RUN fc-cache -f -v
 
 # Clone source code
 RUN mkdir -p /home/realtime/src
-RUN cd /home/realtime/src
+WORKDIR /home/realtime/src
 RUN git clone --branch inasafe-v3.5.4-realtime-3.0.0 --depth 1 https://github.com/inasafe/inasafe-realtime.git
 
 # Called on first run of docker - will run make-latest-shakemap.sh
