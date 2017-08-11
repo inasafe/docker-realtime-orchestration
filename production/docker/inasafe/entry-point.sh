@@ -61,6 +61,18 @@ fi
 
 if [ "$1" == "celery-workers" ];
 then
+	# Checking celery config
+	if [ ! -f headless/celeryconfig.py ]; then
+		"Use default headless/celeryconfig"
+		cp headless/celeryconfig_sample.py headless/celeryconfig.py
+	fi
+
+	if [ ! -f realtime/celeryconfig.py ]; then
+		"Use default realtime/celeryconfig"
+		cp realtime/celeryconfig_sample.py realtime/celeryconfig.py
+	fi
+
+
 	echo "Running celery worker for realtime"
 	xvfb-run --server-args="-screen 0, 1024x768x24" celery -A realtime.celery_app worker -l info -Q inasafe-realtime
 	exit
