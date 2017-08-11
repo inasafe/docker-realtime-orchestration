@@ -1,99 +1,117 @@
 version: "2"
 volumes:
   analysis-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   shakemaps-bnpb-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   shakemaps-bmkg-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   shakemaps-extracted-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   shakemaps-corrected-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   shakemaps-corrected-extracted-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   floodmaps-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   ashmaps-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   sftp-ssh-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
   sftp-ssh-config-data:
-    external: true
     driver: "rancher-nfs"
+    driver_opts:
+      onRemove: retain
 services:
   analysis-data-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - analysis-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   bnpb-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - shakemaps-bnpb-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   bmkg-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - shakemaps-bmkg-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   shakemaps-extracted-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - shakemaps-extracted-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   shakemaps-corrected-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - shakemaps-corrected-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   shakemaps-corrected-extracted-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - shakemaps-corrected-extracted-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   floodmaps-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - floodmaps-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   ashmaps-sync:
-    image: kartoza/btsync
+    image: kartoza/btsync:rancher
     volumes:
       - ashmaps-data:/web
     environment:
       - SECRET=
       - DEVICE=
+      - STANDBY_MODE=TRUE
 
   sftp:
     image: kartoza/realtime-orchestration_sftp:v3.0
@@ -117,7 +135,7 @@ services:
     ports:
       - "8100:5672"
 
-  inasafe: &inasafe
+  inasafe-worker: &inasafe
     image: kartoza/realtime-orchestration_inasafe:v3.0
     environment:
       - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
@@ -161,18 +179,9 @@ services:
     links:
       - sftp:sftp
       - rabbitmq:rabbitmq
+    restart: on-failure
+    command: /entry-point.sh celery-workers
 
   inasafe-shakemap-monitor:
     <<: *inasafe
-    restart: on-failure
     command: /entry-point.sh shakemaps-monitor
-    links:
-      - rabbitmq:rabbitmq
-
-  inasafe-worker:
-    <<: *inasafe
-    restart: on-failure
-    working_dir: /home/realtime/src/inasafe
-    command: /entry-point.sh celery-workers
-    links:
-      - rabbitmq:rabbitmq
