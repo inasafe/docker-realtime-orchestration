@@ -1,15 +1,35 @@
 version: "2"
 volumes:
   analysis-data:
+    external: true
+    driver: "rancher-nfs"
   shakemaps-bnpb-data:
+    external: true
+    driver: "rancher-nfs"
   shakemaps-bmkg-data:
+    external: true
+    driver: "rancher-nfs"
   shakemaps-extracted-data:
+    external: true
+    driver: "rancher-nfs"
   shakemaps-corrected-data:
-  shakemaps-extracted-corrected-data:
+    external: true
+    driver: "rancher-nfs"
+  shakemaps-corrected-extracted-data:
+    external: true
+    driver: "rancher-nfs"
   floodmaps-data:
+    external: true
+    driver: "rancher-nfs"
   ashmaps-data:
+    external: true
+    driver: "rancher-nfs"
   sftp-ssh-data:
+    external: true
+    driver: "rancher-nfs"
   sftp-ssh-config-data:
+    external: true
+    driver: "rancher-nfs"
 services:
   analysis-data-sync:
     image: kartoza/btsync
@@ -76,12 +96,12 @@ services:
       - DEVICE=
 
   sftp:
-    image: kartoza/realtime-orchestration_sftp
+    image: kartoza/realtime-orchestration_sftp:v3.0
     restart: on-failure
     volumes:
       - sftp-ssh-data:/home/realtime/.ssh
       - sftp-ssh-config-data:/etc/ssh
-      - shakemaps-data:/home/realtime/shakemaps
+      - shakemaps-bmkg-data:/home/realtime/shakemaps
       - shakemaps-corrected-data:/home/realtime/shakemaps-corrected
     ports:
       - "9222:22"
@@ -98,7 +118,7 @@ services:
       - "8100:5672"
 
   inasafe: &inasafe
-    build: kartoza/realtime-orchestration_inasafe
+    image: kartoza/realtime-orchestration_inasafe:v3.0
     environment:
       - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
       - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
@@ -133,7 +153,7 @@ services:
       - INASAFE_REALTIME_SHAKEMAP_HOOK_URL=http://realtime-api:8000/realtime/api/v1/indicator/notify_shakemap_push
     volumes:
       - analysis-data:/home/realtime/analysis_data
-      - shakemaps-data:/home/realtime/shakemaps
+      - shakemaps-bmkg-data:/home/realtime/shakemaps
       - shakemaps-extracted-data:/home/realtime/shakemaps-extracted
       - floodmaps-data:/home/realtime/floodmaps
       - ashmaps-data:/home/realtime/ashmaps
@@ -146,17 +166,6 @@ services:
     <<: *inasafe
     restart: on-failure
     command: /entry-point.sh shakemaps-monitor
-    links:
-      - rabbitmq:rabbitmq
-
-  inasafe-shakemap-monitor-bnpb:
-    <<: *inasafe
-    restart: on-failure
-    command: /entry-point.sh shakemaps-monitor
-    volumes:
-      - analysis-data:/home/realtime/analysis_data
-      - shakemaps-bnpb-data:/home/realtime/shakemaps
-      - shakemaps-extracted-data:/home/realtime/shakemaps-extracted
     links:
       - rabbitmq:rabbitmq
 
