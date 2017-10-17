@@ -32,7 +32,7 @@ interpreters:
     ipaddress: *inasafe_realtime_host_ip
 
 inasafe:
-  repo: https://github.com/lucernae/inasafe.git
+  repo: https://github.com/inasafe/inasafe-realtime.git
   remote: upstream
   version: realtime-backport-cherry-pick
 
@@ -49,28 +49,28 @@ docker_port_forward:
 btsync:
   analysis_data:
     secret: BMRMQI2JSG72SUOWMLRY2LD4POCAQQDW3
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   ashmaps:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   bnpb_sync:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   bmkg_sync:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   floodmaps:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   shakemaps_extracted:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   shakemaps_corrected:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
   shakemaps_corrected_extracted:
     secret:
-    device: 'InaSAFE-Realtime Dev Env: Recalune-mac'
+    device: 'InaSAFE-Realtime Dev Env:'
 
 realtime_rest_api:
   host: *inasafe_realtime_host_ip

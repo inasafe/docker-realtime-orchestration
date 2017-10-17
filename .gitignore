@@ -54,6 +54,7 @@ realtime/ash/test/data/temp/
 docker-compose.override.yml
 ansible/tmp/*
 ansible/development/group_vars/all
+ansible/development/group_vars/all.yml
 site.retry
 
 !ansible/tmp/.gitkeep
