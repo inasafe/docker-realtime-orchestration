@@ -138,6 +138,7 @@ services:
   inasafe-worker: &inasafe
     image: kartoza/realtime-orchestration_inasafe:v3.0
     environment:
+      - INASAFE_LOCALE=id
       - INASAFE_REALTIME_TEMPLATE=/home/realtime/analysis_data/realtime-template.qpt
       - INASAFE_REALTIME_PROJECT=/home/realtime/analysis_data/realtime.qgs
       - INASAFE_POPULATION_PATH=/home/realtime/analysis_data/exposure/population.tif
