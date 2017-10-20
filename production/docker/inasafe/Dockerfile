@@ -35,7 +35,8 @@ RUN fc-cache -f -v
 # Clone source code
 RUN mkdir -p /home/realtime/src
 WORKDIR /home/realtime/src
-RUN git clone --branch inasafe-v3.5.4-realtime-3.0.0 --depth 1 https://github.com/inasafe/inasafe-realtime.git inasafe
+ARG INASAFE_REALTIME_TAG=realtime-backport-cherry-pick
+RUN git clone --branch ${INASAFE_REALTIME_TAG} --depth 1 https://github.com/inasafe/inasafe-realtime.git inasafe
 
 # Called on first run of docker - will run make-latest-shakemap.sh
 ADD entry-point.sh /entry-point.sh
