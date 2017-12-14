@@ -10,6 +10,13 @@
             </list>
           </settings>
         </remote-mappings>
+        <remote-mappings server-id="python@ssh://root@{{ interpreters.inasafe_shakemap_monitor.domain_alias }}:{{ interpreters.inasafe_realtime.ssh_port }}/usr/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/inasafe-src" remote-root="/home/realtime/src" />
+            </list>
+          </settings>
+        </remote-mappings>
       </list>
     </list>
   </component>
