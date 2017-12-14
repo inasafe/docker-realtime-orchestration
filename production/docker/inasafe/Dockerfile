@@ -1,6 +1,7 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
 FROM debian:jessie
 
+RUN apt-get -y update; apt-get -y --force-yes install apt-transport-https
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
 
 RUN echo "deb     http://qgis.org/debian-ltr jessie main" >> /etc/apt/sources.list
