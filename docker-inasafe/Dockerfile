@@ -18,7 +18,7 @@ RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
-RUN apt-get -y update; apt-get -y install git xvfb python-setuptools python-dev libssl-dev libffi-dev python-scipy
+RUN apt-get -y update; apt-get -y --force-yes install git xvfb python-setuptools python-dev libssl-dev libffi-dev python-scipy
 RUN easy_install pip==9.0.1
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 ADD REQUIREMENTS-headless.txt /REQUIREMENTS-headless.txt
@@ -27,8 +27,8 @@ RUN pip install -r /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS-headless.txt
 RUN pip install -r /REQUIREMENTS-realtime.txt
 # Copy ubuntu fonts
-RUN apt-get -y update; apt-get -y install wget unzip
-RUN wget -c http://font.ubuntu.com/download/ubuntu-font-family-0.83.zip
+RUN apt-get -y update; apt-get -y --force-yes install wget unzip
+ADD ubuntu-font-family-0.83.zip /ubuntu-font-family-0.83.zip
 RUN unzip ubuntu-font-family-0.83.zip
 RUN mv ubuntu-font-family-0.83 /usr/share/fonts/truetype/ubuntu-font-family
 CMD fc-cache -f -v
