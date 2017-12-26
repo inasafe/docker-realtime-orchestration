@@ -40,49 +40,44 @@ host):
 
 1. Copy `docker-inasafe/realtime-rest.env.template` to `docker-inasafe/realtime-rest.env` and edit if you want to change the Realtime REST server url.
 
-1.  For the four Docker images that will be built (listed above), if you want to use apt-cacher-ng then follow the instructions in each `71-apt-cacher-ng.template` file and in each `Dockerfile` file uncomment the `#ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng` line.
-```
+1.  For the four Docker images that will be built (listed above), if you want to use apt-cacher-ng then follow the instructions in each `71-apt-cacher-ng.template` file and in each `Dockerfile` file uncomment the `#ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng` line, then
 
-then
+    ```
+    git clone git://github.com/inasafe/docker-realtime-orchestration.git
+    cd docker-realtime-orchestration
+    make
+    make checkout
+    ```
 
-```
-git clone git://github.com/inasafe/docker-realtime-orchestration.git
-cd docker-realtime-orchestration
-make
-make checkout __production environment__ OR
-make checkout development __development environment__
+    You can see the status of all the containers by running:
 
-```
+    ```
+    make status
+    ```
 
-You can see the status of all the containers by running:
+    To get the credential for the running sftp container, run:
 
-```
-make status
-```
+    ```
+    make sftp_credential
+    ```
 
-To get the credential for the running sftp container, run:
+    Now you can run an assessment for the latest shakemap:
 
-```
-make sftp_credential
-```
+    ```
+    make inasafe-shakemap
+    ```
 
-Now you can run an assessment for the latest shakemap:
+    You can deploy all the services by running:
 
-```
-make inasafe-shakemap
-```
+    ```
+    make deploy
+    ```
 
-You can deploy all the services by running:
+    To kill and delete stale container, run:
 
-```
-make deploy
-```
-
-To kill and delete stale container, run:
-
-```
-make rm
-```
+    ```
+    make rm
+    ```
 
 After deploying realtime services, shakemap monitor will also running.
 **Shakemap monitoring services** is used to monitor shakemap sftp folder.
