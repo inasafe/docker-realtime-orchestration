@@ -27,6 +27,8 @@ echo "INASAFE_REALTIME_TAG=${INASAFE_REALTIME_TAG}"
 echo "Build: $REPO_NAME/$IMAGE_NAME:$TAG_NAME"
 echo "Build Args: $BUILD_ARGS"
 
-docker build -t ${REPO_NAME}/${IMAGE_NAME} ${BUILD_ARGS} .
+docker build -t ${REPO_NAME}/${IMAGE_NAME} ${BUILD_ARGS} \
+	--build-arg INASAFE_REALTIME_TAG=${INASAFE_REALTIME_TAG} \
+	${BUILD_ARGS} .
 docker tag ${REPO_NAME}/${IMAGE_NAME} ${REPO_NAME}/${IMAGE_NAME}:${TAG_NAME}
 docker push ${REPO_NAME}/${IMAGE_NAME}:${TAG_NAME}
